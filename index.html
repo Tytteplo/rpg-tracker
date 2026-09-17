@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>⚔️ Мой RPG-трекер</title>
+  <style>
+    :root{--bg:#0d0b14;--panel:#171421;--text:#f4f0ff;--muted:#9c95b0;--purple:#9b7cff;--purple2:#6e4df6;--green:#4fd1a5;--red:#ef7185}
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(circle at 15% 0,#211641 0,transparent 35%),radial-gradient(circle at 100% 30%,#171c3a 0,transparent 28%),var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    .app{display:flex;min-height:100vh}
+    .side{width:250px;flex:none;background:#100d18;border-right:1px solid rgba(48,41,67,0.3);padding:18px 13px;position:sticky;top:0;height:100vh;backdrop-filter:blur(12px);z-index:20}
+    .logo{font-size:20px;font-weight:900;padding:9px 10px 20px;display:flex;align-items:center;gap:10px}
+    .nav{display:grid;gap:4px}
+    .nav button{border:1px solid transparent;background:none;color:var(--muted);padding:10px 12px;border-radius:12px;text-align:left}
+    .nav button:hover,.nav button.active{background:#211a31;color:#fff;border-color:#392e50}
+    .main{flex:1;min-width:0;padding:24px clamp(14px,3vw,38px) 60px}
+    .top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:20px}
+    .top h1{margin:0;font-size:clamp(25px,3vw,38px);letter-spacing:-.04em}
+    .top p{margin:4px 0;color:var(--muted)}
+    .card{background:linear-gradient(145deg,#191522,#15121e);border:1px solid rgba(48,41,67,0.3);border-radius:18px;padding:17px;margin-bottom:15px}
+    input,select,textarea{border:1px solid rgba(48,41,67,0.3);background:#100d17;color:var(--text);border-radius:10px;padding:9px 11px;outline:none;width:100%}
+    .btn{border:1px solid rgba(48,41,67,0.3);background:#191522;color:var(--text);border-radius:11px;padding:9px 13px}
+    .primary{background:linear-gradient(135deg,var(--purple2),var(--purple));border:none;color:white;font-weight:800}
+    @media(max-width:800px){.app{display:block}.side{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;padding:6px;border-right:0;border-top:1px solid rgba(48,41,67,0.3)}.main{padding:16px 13px 86px}.top{align-items:center}}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="side">
+      <div class="logo"><span>⚔️</span> Трекер</div>
+      <nav class="nav">
+        <button>📊 Статистика</button>
+        <button>🗂 Задачи</button>
+        <button>🏋️ Тренировки</button>
+        <button>💰 Финансы</button>
+        <button>🧠 Привычки</button>
+      </nav>
+    </aside>
+    <main class="main">
+      <header class="top">
+        <h1>Твой RPG-путь</h1>
+        <p>Продуктивность как прокачка персонажа</p>
+      </header>
+      <section class="card">
+        <h3>Что сегодня?</h3>
+        <p>Здесь будет твой прогресс, задачи и статистика.</p>
+        <br>
+        <button class="btn primary">Добавить задачу</button>
+      </section>
+      <section class="card">
+        <h3>Прогресс недели</h3>
+        <p>Пока пусто — начни с одной маленькой задачи.</p>
+      </section>
+    </main>
+  </div>
+  <!-- Сюда позже можно добавить скрипты, если нужно -->
+</body>
+</html>
