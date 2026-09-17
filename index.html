@@ -3,57 +3,305 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>⚔️ Мой RPG-трекер</title>
+  <title>RPG-трекер: задачи, финансы, тренировки</title>
   <style>
-    :root{--bg:#0d0b14;--panel:#171421;--text:#f4f0ff;--muted:#9c95b0;--purple:#9b7cff;--purple2:#6e4df6;--green:#4fd1a5;--red:#ef7185}
-    *{box-sizing:border-box}
-    body{margin:0;background:radial-gradient(circle at 15% 0,#211641 0,transparent 35%),radial-gradient(circle at 100% 30%,#171c3a 0,transparent 28%),var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    .app{display:flex;min-height:100vh}
-    .side{width:250px;flex:none;background:#100d18;border-right:1px solid rgba(48,41,67,0.3);padding:18px 13px;position:sticky;top:0;height:100vh;backdrop-filter:blur(12px);z-index:20}
-    .logo{font-size:20px;font-weight:900;padding:9px 10px 20px;display:flex;align-items:center;gap:10px}
-    .nav{display:grid;gap:4px}
-    .nav button{border:1px solid transparent;background:none;color:var(--muted);padding:10px 12px;border-radius:12px;text-align:left}
-    .nav button:hover,.nav button.active{background:#211a31;color:#fff;border-color:#392e50}
-    .main{flex:1;min-width:0;padding:24px clamp(14px,3vw,38px) 60px}
-    .top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:20px}
-    .top h1{margin:0;font-size:clamp(25px,3vw,38px);letter-spacing:-.04em}
-    .top p{margin:4px 0;color:var(--muted)}
-    .card{background:linear-gradient(145deg,#191522,#15121e);border:1px solid rgba(48,41,67,0.3);border-radius:18px;padding:17px;margin-bottom:15px}
-    input,select,textarea{border:1px solid rgba(48,41,67,0.3);background:#100d17;color:var(--text);border-radius:10px;padding:9px 11px;outline:none;width:100%}
-    .btn{border:1px solid rgba(48,41,67,0.3);background:#191522;color:var(--text);border-radius:11px;padding:9px 13px}
-    .primary{background:linear-gradient(135deg,var(--purple2),var(--purple));border:none;color:white;font-weight:800}
-    @media(max-width:800px){.app{display:block}.side{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;padding:6px;border-right:0;border-top:1px solid rgba(48,41,67,0.3)}.main{padding:16px 13px 86px}.top{align-items:center}}
+    :root {
+      --bg: #0d0b14;
+      --panel: #171421;
+      --text: #f4f0ff;
+      --muted: #9c95b0;
+      --purple: #9b7cff;
+      --purple2: #6e4df6;
+      --green: #4fd1a5;
+      --red: #ef7185;
+    }
+    [data-theme="light"] {
+      --bg: #f5f3fa;
+      --panel: #ffffff;
+      --text: #1a162a;
+      --muted: #5c546d;
+      --purple: #7b5cd9;
+      --purple2: #5533a0;
+      --green: #3aa88a;
+      --red: #d6506b;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .app { display: flex; min-height: 100vh; }
+    .side {
+      width: 250px;
+      flex: none;
+      background: #100d18;
+      border-right: 1px solid rgba(48,41,67,0.3);
+      padding: 18px 13px;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      backdrop-filter: blur(12px);
+      z-index: 20;
+    }
+    @media (max-width: 800px) {
+      .side { position: fixed; left: 0; right: 0; bottom: 0; top: auto; width: 100%; height: auto; padding: 6px; border-right: 0; border-top: 1px solid rgba(48,41,67,0.3); }
+      .main { padding: 16px 13px 86px; }
+      .top { align-items: center; }
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 900;
+      padding: 9px 10px 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav { display: grid; gap: 4px; }
+    .nav button {
+      border: 1px solid transparent;
+      background: none;
+      color: var(--muted);
+      padding: 10px 12px;
+      border-radius: 12px;
+      text-align: left;
+      cursor: pointer;
+    }
+    .nav button:hover, .nav button.active {
+      background: #211a31;
+      color: #fff;
+      border-color: #392e50;
+    }
+    .main { flex: 1; min-width: 0; padding: 24px clamp(14px, 3vw, 38px) 60px; }
+    .top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    .top h1 { margin: 0; font-size: clamp(25px, 3vw, 38px); letter-spacing: -0.04em; }
+    .top p { margin: 4px 0; color: var(--muted); }
+    .card {
+      background: linear-gradient(145deg, #191522, #15121e);
+      border: 1px solid rgba(48,41,67,0.3);
+      border-radius: 18px;
+      padding: 17px;
+      margin-bottom: 15px;
+    }
+    [data-theme="light"] .card {
+      background: #fff;
+      border-color: rgba(0,0,0,0.08);
+    }
+    input, textarea, select {
+      border: 1px solid rgba(48,41,67,0.3);
+      background: #100d17;
+      color: var(--text);
+      border-radius: 10px;
+      padding: 9px 11px;
+      outline: none;
+      width: 100%;
+    }
+    [data-theme="light"] input, [data-theme="light"] textarea, [data-theme="light"] select {
+      background: #fff;
+      border-color: rgba(0,0,0,0.15);
+    }
+    button { border: none; cursor: pointer; border-radius: 11px; padding: 9px 13px; }
+    .btn {
+      border: 1px solid rgba(48,41,67,0.3);
+      background: #191522;
+      color: var(--text);
+    }
+    [data-theme="light"] .btn {
+      background: #f0edf8;
+      border-color: rgba(0,0,0,0.1);
+      color: #1a162a;
+    }
+    .primary {
+      background: linear-gradient(135deg, var(--purple2), var(--purple));
+      border: none;
+      color: white;
+      font-weight: 800;
+    }
+    [data-theme="light"] .primary { background: linear-gradient(135deg, var(--purple2), var(--purple)); }
+    .task {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border: 1px solid rgba(48,41,67,0.2);
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    [data-theme="light"] .task { border-color: rgba(0,0,0,0.06); }
+    .check {
+      width: 20px; height: 20px;
+      border: 1px solid var(--muted);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+    }
+    .check.on { background: var(--green); border-color: var(--green); }
+    [data-theme="light"] .check.on { background: #2ba88b; border-color: #2ba88b; }
+    .check.on::after { content: '✓'; color: #fff; }
+    .hidden { display: none; }
+    
+    /* Иконки-SVG (встроены в стиль для компактности) */
+    .icon-svg { display: inline-block; width: 20px; height: 20px; fill: currentColor; vertical-align: middle; }
   </style>
 </head>
 <body>
   <div class="app">
     <aside class="side">
-      <div class="logo"><span>⚔️</span> Трекер</div>
+      <div class="logo">
+        <!-- SVG-иконка вместо картинки -->
+        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5-4-2-6 3-6-3z"/></svg>
+        RPG-трекер
+      </div>
       <nav class="nav">
-        <button>📊 Статистика</button>
-        <button>🗂 Задачи</button>
-        <button>🏋️ Тренировки</button>
-        <button>💰 Финансы</button>
-        <button>🧠 Привычки</button>
+        <button onclick="switchTab('tasks')" id="btn-tasks" class="active">📋 Задачи</button>
+        <button onclick="switchTab('workout')" id="btn-workout">🏋️ Тренировки</button>
+        <button onclick="switchTab('finance')" id="btn-finance">💰 Финансы</button>
+        <button onclick="switchTab('habits')" id="btn-habits">🧠 Привычки</button>
       </nav>
+      <!-- Кнопка смены темы -->
+      <br>
+      <button class="btn" onclick="toggleTheme()">🌙 Сменить тему</button>
     </aside>
     <main class="main">
       <header class="top">
         <h1>Твой RPG-путь</h1>
-        <p>Продуктивность как прокачка персонажа</p>
+        <p>Прокачка: задачи, тренировки, финансы, привычки</p>
       </header>
-      <section class="card">
-        <h3>Что сегодня?</h3>
-        <p>Здесь будет твой прогресс, задачи и статистика.</p>
-        <br>
-        <button class="btn primary">Добавить задачу</button>
+
+      <!-- Задачи -->
+      <section id="tab-tasks" class="">
+        <div class="card">
+          <h3>📝 Новые задачи</h3>
+          <input type="text" id="task-input" placeholder="Что сегодня прокачиваем?">
+          <br><br>
+          <button class="btn primary" onclick="addTask()">Добавить задачу</button>
+        </div>
+        <div id="tasks-list"></div>
       </section>
-      <section class="card">
-        <h3>Прогресс недели</h3>
-        <p>Пока пусто — начни с одной маленькой задачи.</p>
+
+      <!-- Тренировки -->
+      <section id="tab-workout" class="hidden">
+        <div class="card">
+          <h3>🏋️ Сегодня в зале</h3>
+          <p>Отмечай подходы и вес.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
+            <input type="number" id="work-weight" placeholder="Вес (кг)">
+            <input type="number" id="work-sets" placeholder="Подходы">
+            <input type="number" id="work-reps" placeholder="Повторы">
+          </div>
+          <br>
+          <button class="btn primary" onclick="logWorkout()">Записать тренировку</button>
+          <div id="workout-log" style="margin-top:15px"></div>
+        </div>
+      </section>
+
+      <!-- Финансы -->
+      <section id="tab-finance" class="hidden">
+        <div class="card">
+          <h3>💰 Бюджет и финансы</h3>
+          <p>Для сына: учёт карманных и заработка.</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+            <input type="number" id="fin-amount" placeholder="Сумма">
+            <select id="fin-type"><option value="income">Доход</option><option value="expense">Расход</option></select>
+          </div>
+          <input type="text" id="fin-desc" placeholder="Описание (например: «сборы в школу»)">
+          <br><br>
+          <button class="btn primary" onclick="logFinance()">Записать</button>
+          <div id="finance-log" style="margin-top:15px"></div>
+        </div>
+      </section>
+
+      <!-- Привычки -->
+      <section id="tab-habits" class="hidden">
+        <div class="card">
+          <h3>🧠 Привычки (система 12 недель)</h3>
+          <p>Ставь галочки каждый день — прогресс виден сразу.</p>
+          <div id="habits-list">
+            <div class="task"><div class="check" onclick="toggleHabit(this)"></div><span>Пить воду (2 л)</span></div>
+            <div class="task"><div class="check" onclick="toggleHabit(this)"></div><span>10 000 шагов</span></div>
+            <div class="task"><div class="check" onclick="toggleHabit(this)"></div><span>Разговор с сыном 15 минут</span></div>
+          </div>
+        </div>
       </section>
     </main>
   </div>
-  <!-- Сюда позже можно добавить скрипты, если нужно -->
+
+  <script>
+    function toggleTheme() {
+      const body = document.body;
+      const isLight = body.getAttribute('data-theme') === 'light';
+      body.setAttribute('data-theme', isLight ? null : 'light');
+    }
+
+    function switchTab(tabName) {
+      document.querySelectorAll('section').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav button').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById('tab-' + tabName).classList.remove('hidden');
+      document.getElementById('btn-' + tabName).classList.add('active');
+    }
+
+    function addTask() {
+      const input = document.getElementById('task-input');
+      const text = input.value.trim();
+      if (!text) return;
+      
+      const list = document.getElementById('tasks-list');
+      const taskEl = document.createElement('div');
+      taskEl.className = 'task';
+      taskEl.innerHTML = `
+        <div class="check" onclick="toggleTask(this, event)"></div>
+        <span>${text}</span>
+      `;
+      list.appendChild(taskEl);
+      input.value = '';
+    }
+
+    function toggleTask(el, e) {
+      e.stopPropagation();
+      el.classList.toggle('on');
+    }
+
+    function logWorkout() {
+      const w = document.getElementById('work-weight').value;
+      const s = document.getElementById('work-sets').value;
+      const r = document.getElementById('work-reps').value;
+      if (!w || !s || !r) return alert('Заполни все поля');
+      
+      const log = document.getElementById('workout-log');
+      const entry = document.createElement('div');
+      entry.style.margin = '8px 0';
+      entry.innerHTML = `<b>🏋️ ${w} кг × ${s} подходов × ${r} повторов</b>`;
+      log.prepend(entry);
+      document.getElementById('work-weight').value = '';
+      document.getElementById('work-sets').value = '';
+      document.getElementById('work-reps').value = '';
+    }
+
+    function logFinance() {
+      const amt = document.getElementById('fin-amount').value;
+      const type = document.getElementById('fin-type').value;
+      const desc = document.getElementById('fin-desc').value.trim();
+      if (!amt) return alert('Укажи сумму');
+      
+      const log = document.getElementById('finance-log');
+      const entry = document.createElement('div');
+      entry.style.margin = '8px 0';
+      const label = type === 'income' ? '🟢 Доход' : '🔴 Расход';
+      entry.innerHTML = `${label}: ${amt} ₽ — ${desc || 'без описания'}`;
+      log.prepend(entry);
+    }
+
+    function toggleHabit(el) {
+      el.classList.toggle('on');
+    }
+  </script>
 </body>
 </html>
