@@ -1,0 +1,10 @@
+{
+  "name": "Мой RPG трекер",
+  "short_name": "RPG Трекер",
+  "description": "Персональный RPG-трекер",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b0910",
+  "theme_color": "#17121f"
+}
