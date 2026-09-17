@@ -1,307 +1,197 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>RPG-трекер: задачи, финансы, тренировки</title>
-  <style>
-    :root {
-      --bg: #0d0b14;
-      --panel: #171421;
-      --text: #f4f0ff;
-      --muted: #9c95b0;
-      --purple: #9b7cff;
-      --purple2: #6e4df6;
-      --green: #4fd1a5;
-      --red: #ef7185;
-    }
-    [data-theme="light"] {
-      --bg: #f5f3fa;
-      --panel: #ffffff;
-      --text: #1a162a;
-      --muted: #5c546d;
-      --purple: #7b5cd9;
-      --purple2: #5533a0;
-      --green: #3aa88a;
-      --red: #d6506b;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font: 14px/1.45 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    }
-    .app { display: flex; min-height: 100vh; }
-    .side {
-      width: 250px;
-      flex: none;
-      background: #100d18;
-      border-right: 1px solid rgba(48,41,67,0.3);
-      padding: 18px 13px;
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      backdrop-filter: blur(12px);
-      z-index: 20;
-    }
-    @media (max-width: 800px) {
-      .side { position: fixed; left: 0; right: 0; bottom: 0; top: auto; width: 100%; height: auto; padding: 6px; border-right: 0; border-top: 1px solid rgba(48,41,67,0.3); }
-      .main { padding: 16px 13px 86px; }
-      .top { align-items: center; }
-    }
-    .logo {
-      font-size: 20px;
-      font-weight: 900;
-      padding: 9px 10px 20px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    .nav { display: grid; gap: 4px; }
-    .nav button {
-      border: 1px solid transparent;
-      background: none;
-      color: var(--muted);
-      padding: 10px 12px;
-      border-radius: 12px;
-      text-align: left;
-      cursor: pointer;
-    }
-    .nav button:hover, .nav button.active {
-      background: #211a31;
-      color: #fff;
-      border-color: #392e50;
-    }
-    .main { flex: 1; min-width: 0; padding: 24px clamp(14px, 3vw, 38px) 60px; }
-    .top {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    .top h1 { margin: 0; font-size: clamp(25px, 3vw, 38px); letter-spacing: -0.04em; }
-    .top p { margin: 4px 0; color: var(--muted); }
-    .card {
-      background: linear-gradient(145deg, #191522, #15121e);
-      border: 1px solid rgba(48,41,67,0.3);
-      border-radius: 18px;
-      padding: 17px;
-      margin-bottom: 15px;
-    }
-    [data-theme="light"] .card {
-      background: #fff;
-      border-color: rgba(0,0,0,0.08);
-    }
-    input, textarea, select {
-      border: 1px solid rgba(48,41,67,0.3);
-      background: #100d17;
-      color: var(--text);
-      border-radius: 10px;
-      padding: 9px 11px;
-      outline: none;
-      width: 100%;
-    }
-    [data-theme="light"] input, [data-theme="light"] textarea, [data-theme="light"] select {
-      background: #fff;
-      border-color: rgba(0,0,0,0.15);
-    }
-    button { border: none; cursor: pointer; border-radius: 11px; padding: 9px 13px; }
-    .btn {
-      border: 1px solid rgba(48,41,67,0.3);
-      background: #191522;
-      color: var(--text);
-    }
-    [data-theme="light"] .btn {
-      background: #f0edf8;
-      border-color: rgba(0,0,0,0.1);
-      color: #1a162a;
-    }
-    .primary {
-      background: linear-gradient(135deg, var(--purple2), var(--purple));
-      border: none;
-      color: white;
-      font-weight: 800;
-    }
-    [data-theme="light"] .primary { background: linear-gradient(135deg, var(--purple2), var(--purple)); }
-    .task {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px;
-      border: 1px solid rgba(48,41,67,0.2);
-      border-radius: 12px;
-      margin-bottom: 8px;
-    }
-    [data-theme="light"] .task { border-color: rgba(0,0,0,0.06); }
-    .check {
-      width: 20px; height: 20px;
-      border: 1px solid var(--muted);
-      border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer;
-    }
-    .check.on { background: var(--green); border-color: var(--green); }
-    [data-theme="light"] .check.on { background: #2ba88b; border-color: #2ba88b; }
-    .check.on::after { content: '✓'; color: #fff; }
-    .hidden { display: none; }
-    
-    /* Иконки-SVG (встроены в стиль для компактности) */
-    .icon-svg { display: inline-block; width: 20px; height: 20px; fill: currentColor; vertical-align: middle; }
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>⚔️ Мой RPG-трекер</title>
+<style>
+:root{--bg:#0d0b14;--panel:#171421;--panel2:#1d1829;--line:#302943;--text:#f4f0ff;--muted:#9c95b0;--purple:#9b7cff;--purple2:#6e4df6;--gold:#e7b85c;--green:#4fd1a5;--red:#ef7185;--blue:#66a6ff;--shadow:0 16px 45px #0008;--r:18px}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 15% 0,#211641 0,transparent 35%),radial-gradient(circle at 100% 30%,#171c3a 0,transparent 28%),var(--bg);color:var(--text);font:14px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}.side{width:250px;flex:none;background:#100d18eF;border-right:1px solid var(--line);padding:18px 13px;position:sticky;top:0;height:100vh;backdrop-filter:blur(12px);z-index:20}.logo{font-size:20px;font-weight:900;padding:9px 10px 20px;display:flex;align-items:center;gap:10px}.logo i{font-style:normal;background:#2a2140;padding:8px;border-radius:12px}.nav{display:grid;gap:4px}.nav button{border:1px solid transparent;background:none;color:var(--muted);padding:10px 12px;border-radius:12px;text-align:left}.nav button:hover,.nav button.active{background:#211a31;color:#fff;border-color:#392e50}.hero{margin:20px 5px 0;padding:15px;border:1px solid var(--line);background:linear-gradient(145deg,#211a31,#151321);border-radius:16px}.avatar{font-size:34px}.hero b{display:block;margin-top:4px}.mini{height:8px;background:#0c0910;border-radius:99px;overflow:hidden;margin-top:9px}.mini div,.progress div{height:100%;background:linear-gradient(90deg,var(--purple2),var(--gold));border-radius:inherit;transition:.25s}.main{flex:1;min-width:0;padding:24px clamp(14px,3vw,38px) 60px}.top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:20px}.top h1{margin:0;font-size:clamp(25px,3vw,38px);letter-spacing:-.04em}.top p{margin:4px 0;color:var(--muted)}.btn{border:1px solid var(--line);background:#191522;color:var(--text);border-radius:11px;padding:9px 13px}.btn:hover{border-color:#51416e}.primary{background:linear-gradient(135deg,var(--purple2),var(--purple));border-color:transparent;color:white;font-weight:800}.danger{color:#ff9cac}.section{display:none}.section.active{display:block}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:15px}.stat,.card{background:linear-gradient(145deg,#191522,#15121e);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}.stat{padding:16px}.stat small,.meta{color:var(--muted)}.stat strong{display:block;font-size:27px;margin:6px 0}.grid{display:grid;grid-template-columns:1.25fr .9fr;gap:15px}.card{padding:17px}.card h3{margin:0 0 13px}.row{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);background:#17131f;border-radius:12px;margin-bottom:8px}.grow{flex:1;min-width:0}.name{font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tag{font-size:10px;padding:4px 7px;border-radius:7px;background:#292432;color:#bbb3ca}.high{background:#3a2029;color:#ff9aaa}.medium{background:#3b3020;color:#e9c46a}.low{background:#19342e;color:#73d9b8}.progress{height:9px;background:#0c0911;border-radius:99px;overflow:hidden}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.toolbar .spacer{flex:1}input,select,textarea{border:1px solid var(--line);background:#100d17;color:var(--text);border-radius:10px;padding:9px 11px;outline:none;width:100%}textarea{resize:vertical}.kanban{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.col{background:#120f18;border:1px solid var(--line);border-radius:16px;padding:12px;min-height:350px}.col.over{outline:2px dashed var(--purple);background:#1c1630}.colhead{display:flex;justify-content:space-between;font-weight:850;margin-bottom:10px}.count{background:#292332;color:var(--muted);border-radius:99px;padding:2px 7px;font-size:11px}.task{background:#191521;border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:9px;cursor:grab}.task:hover{border-color:#4b3b65}.task h4{margin:0 0 8px}.tags{display:flex;gap:5px;flex-wrap:wrap}.taskfoot{display:flex;justify-content:space-between;align-items:center;margin-top:9px;color:var(--muted);font-size:11px}.actions button{border:0;background:none;color:inherit;padding:3px}.matrix{display:grid;grid-template-columns:1fr 1fr;gap:13px}.quad{min-height:230px;border-radius:16px;padding:15px;border:1px solid var(--line)}.q1{background:#2a1820}.q2{background:#182237}.q3{background:#2a2418}.q4{background:#17251f}.quad h3{margin:0 0 2px}.weeks{display:flex;gap:7px;overflow:auto;padding-bottom:7px}.week{min-width:82px;border:1px solid var(--line);background:#120f18;color:var(--text);border-radius:11px;padding:8px;text-align:center}.week.active{background:var(--purple2);border-color:var(--purple)}.finance{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:15px}.money{font-size:25px;font-weight:900}.income{color:var(--green)}.expense{color:var(--red)}.chart{height:220px;display:flex;align-items:end;gap:8px;border-bottom:1px solid var(--line);padding:20px 3px 3px}.barwrap{height:100%;flex:1;display:flex;flex-direction:column;justify-content:end;align-items:center}.bar{width:min(42px,80%);background:linear-gradient(#a891ff,#6546ef);border-radius:8px 8px 2px 2px;min-height:2px;position:relative}.bar span{position:absolute;bottom:100%;font-size:9px;color:var(--muted);white-space:nowrap}.barlabel{font-size:9px;color:var(--muted);margin-top:5px}.budgetrow{display:grid;grid-template-columns:1.2fr .7fr .7fr .7fr 1fr;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line)}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}.calwrap{overflow:auto}.day{min-height:92px;background:#120f18;border:1px solid var(--line);border-radius:10px;padding:7px;cursor:pointer}.day.today{border:2px solid var(--purple);background:#211a31}.wd{text-align:center;color:var(--muted);font-size:11px;padding:4px}.dt{font-weight:850;font-size:12px}.event{font-size:9px;background:#222044;padding:3px 5px;border-radius:5px;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.dots{font-size:11px;margin-top:4px}.workout,.measure,.food,.reward{background:#17131f;border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:9px}.table{width:100%;border-collapse:collapse}.table th,.table td{border-bottom:1px solid var(--line);padding:8px;text-align:left;font-size:12px}.table input{min-width:70px}.habitgrid{overflow:auto}.habit-table{min-width:720px}.habit-table th,.habit-table td{text-align:center;padding:7px;border-bottom:1px solid var(--line)}.habit-table th:first-child,.habit-table td:first-child{text-align:left;min-width:190px}.habit-check{width:28px;height:28px;border:1px solid var(--line);background:#100d17;border-radius:8px;color:white}.habit-check.on{background:var(--green);border-color:var(--green)}.macro{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.macro .stat{text-align:center}.rewardgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.reward .ico{font-size:34px}.reward h3{margin:7px 0 2px}.reward p{color:var(--muted);min-height:40px}.form{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{display:grid;gap:5px}.field.full{grid-column:1/-1}.field label{font-size:11px;color:var(--muted);font-weight:750}.modalbg{display:none;position:fixed;inset:0;background:#05040ab8;backdrop-filter:blur(7px);z-index:50;align-items:center;justify-content:center;padding:14px}.modalbg.open{display:flex}.modal{width:min(720px,100%);max-height:92vh;overflow:auto;background:#171421;border:1px solid var(--line);border-radius:22px;padding:20px;box-shadow:0 25px 80px #000c}.modal.wide{width:min(1050px,100%)}.modalhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px}.modalhead h2{margin:0}.modalfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:17px}.empty{text-align:center;color:var(--muted);padding:25px 8px}.toast{position:fixed;right:18px;bottom:18px;background:#292332;color:#fff;border:1px solid #4a3b61;padding:12px 15px;border-radius:12px;opacity:0;transform:translateY(18px);transition:.22s;z-index:100}.toast.show{opacity:1;transform:none}.pill{display:inline-flex;gap:5px;align-items:center;padding:4px 8px;border:1px solid var(--line);border-radius:99px;color:var(--muted);font-size:11px}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.split{display:flex;justify-content:space-between;align-items:center;gap:10px}.notice{padding:10px 12px;border:1px solid #4c3b18;background:#251f12;border-radius:11px;color:#dfc478}.file{font-size:12px;color:var(--muted)}
+@media(max-width:1100px){.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.rewardgrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:800px){.app{display:block}.side{position:fixed;left:0;right:0;bottom:0;top:auto;width:100%;height:auto;padding:6px;border-right:0;border-top:1px solid var(--line);background:#100d18f5}.logo,.hero{display:none}.nav{display:flex;overflow:auto;gap:4px}.nav button{flex:1;min-width:72px;text-align:center;padding:9px 7px;font-size:11px}.main{padding:16px 13px 86px}.kanban{grid-template-columns:1fr}.matrix,.rewardgrid,.finance{grid-template-columns:1fr}.macro{grid-template-columns:repeat(2,1fr)}.top{align-items:center}.top p{font-size:12px}.budgetrow{grid-template-columns:1fr 1fr}.budgetrow>*:nth-child(n+3){grid-column:auto}.form{grid-template-columns:1fr}.field.full{grid-column:auto}.modal{max-height:96vh;border-radius:18px}.calendar{min-width:680px}.calwrap{overflow:auto}.summary{grid-template-columns:1fr 1fr}}
+@media(max-width:480px){.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:21px}.top .primary{padding:9px}.top h1{font-size:25px}.macro{grid-template-columns:1fr 1fr}.summary{grid-template-columns:1fr}}
+
+/* Theme system */
+body.light{--bg:#f5f6fb;--panel:#ffffff;--panel2:#f0f1f7;--line:#e1e4ee;--text:#25283a;--muted:#747b91;--purple:#745cff;--purple2:#5b45dc;--gold:#b78621;--green:#299b79;--red:#d45c6e;--blue:#4d83cf;--shadow:0 14px 38px #4b527018;background:radial-gradient(circle at 15% 0,#ece8ff 0,transparent 35%),radial-gradient(circle at 100% 30%,#e9f0ff 0,transparent 28%),var(--bg)}
+body.light .side{background:#ffffffee}body.light .logo i{background:#eeeaff}body.light .nav button:hover,body.light .nav button.active{background:#eeeaff;color:#5947cf;border-color:#ded8ff}body.light .hero{background:linear-gradient(145deg,#f0edff,#edf9f5)}body.light .btn{background:#fff}body.light .stat,body.light .card{background:linear-gradient(145deg,#fff,#f9faff)}body.light .row,body.light .workout,body.light .measure,body.light .food,body.light .reward{background:#fff}body.light input,body.light select,body.light textarea{background:#fff}body.light .col,body.light .day,body.light .week{background:#f2f3f8}body.light .task{background:#fff}body.light .q1{background:#fff0f3}body.light .q2{background:#edf4ff}body.light .q3{background:#fff7df}body.light .q4{background:#edf9f4}body.light .modal{background:#fff}body.light .modalbg{background:#1c203455}body.light .toast{background:#292d40}
+.theme-toggle{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel);color:var(--text);border-radius:999px;padding:8px 11px;font-weight:700}.theme-toggle .dot{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--gold))}
+.sync-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.sync-status{display:flex;align-items:center;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:var(--panel2)}.sync-dot{width:10px;height:10px;border-radius:50%;background:#d9a32f}.sync-dot.ok{background:var(--green)}.sync-dot.err{background:var(--red)}
+.install-box{padding:14px;border:1px dashed var(--purple);background:color-mix(in srgb,var(--purple) 8%,transparent);border-radius:14px}.codebox{font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap;word-break:break-word;background:var(--panel2);border:1px solid var(--line);padding:11px;border-radius:10px}
+@media(max-width:800px){.sync-grid{grid-template-columns:1fr}.theme-toggle{padding:8px 10px}.top{flex-wrap:wrap}}
+</style>
+
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#17121f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Мой RPG трекер">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon-180.png">
 </head>
 <body>
-  <div class="app">
-    <aside class="side">
-      <div class="logo">
-        <!-- SVG-иконка вместо картинки -->
-        <svg class="icon-svg" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5-4-2-6 3-6-3z"/></svg>
-        RPG-трекер
-      </div>
-      <nav class="nav">
-        <button onclick="switchTab('tasks')" id="btn-tasks" class="active">📋 Задачи</button>
-        <button onclick="switchTab('workout')" id="btn-workout">🏋️ Тренировки</button>
-        <button onclick="switchTab('finance')" id="btn-finance">💰 Финансы</button>
-        <button onclick="switchTab('habits')" id="btn-habits">🧠 Привычки</button>
-      </nav>
-      <!-- Кнопка смены темы -->
-      <br>
-      <button class="btn" onclick="toggleTheme()">🌙 Сменить тему</button>
-    </aside>
-    <main class="main">
-      <header class="top">
-        <h1>Твой RPG-путь</h1>
-        <p>Прокачка: задачи, тренировки, финансы, привычки</p>
-      </header>
+<div id="fileWarning" style="display:none;position:fixed;left:12px;right:12px;bottom:12px;z-index:99999;background:var(--panel);border:1px solid var(--gold);border-radius:16px;padding:14px;box-shadow:0 20px 50px rgba(0,0,0,.4)"><b>📱 Открыт локальный HTML-файл</b><div class="meta" style="margin-top:5px">На iPhone не открывай этот файл из «Файлов». Для полной работы открой опубликованный HTTPS-адрес в Safari и добавь его на экран Домой.</div></div><div class="app">
+<aside class="side"><div class="logo"><i>⚔️</i> Мой трекер</div><nav class="nav" id="nav">
+<button class="active" data-s="dashboard">🏠<br>Обзор</button><button data-s="tasks">📋<br>Задачи</button><button data-s="matrix">🎯<br>Матрица</button><button data-s="weeks">🗓️<br>12 недель</button><button data-s="finance">💰<br>Финансы</button><button data-s="calendar">📅<br>Календарь</button><button data-s="workouts">🏋️<br>Тренировки</button><button data-s="measurements">📏<br>Замеры</button><button data-s="nutrition">🍽️<br>КБЖУ</button><button data-s="rewards">🏆<br>Награды</button><button data-s="sync">☁️<br>Синхр.</button></nav>
+<div class="hero"><div class="avatar" id="heroAvatar">🧙</div><b id="sideRank">Новичок · ур. 1</b><small id="sideXP">0 / 500 XP</small><div class="mini"><div id="sideBar"></div></div></div></aside>
+<main class="main"><header class="top"><div><h1 id="title">Твоя продуктивность — твой RPG-путь</h1><p id="subtitle">Каждый маленький квест двигает героя вперёд.</p></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="theme-toggle" onclick="toggleTheme()"><span class="dot"></span><span id="themeLabel">Светлая тема</span></button><button class="btn primary" onclick="openTask()">＋ Новая задача</button></div></header>
+<section id="dashboard" class="section active"><div class="stats"><div class="stat">📋<small> Всего задач</small><strong id="stTotal">0</strong><small>активных и завершённых</small></div><div class="stat">🏆<small> Выполнено</small><strong id="stDone">0</strong><small>квестов за всё время</small></div><div class="stat">⚡<small> Опыт</small><strong id="stXP">0</strong><small>текущий XP</small></div><div class="stat">💰<small> Баланс</small><strong id="stBal">0</strong><small>текущий месяц</small></div><div class="stat">🏋️<small> Тренировок</small><strong id="stWork">0</strong><small>за текущую неделю</small></div><div class="stat">🔥<small> Серия</small><strong id="stStreak">0</strong><small>дней привычек подряд</small></div></div>
+<div class="grid"><div class="card"><h3>⚔️ Активные квесты</h3><div id="dashTasks"></div></div><div class="card"><h3>⚡ Уровень героя</h3><div class="row"><div style="font-size:30px" id="dashAvatar">🧙</div><div class="grow"><b id="rankName">Новичок</b><div class="progress" style="margin-top:7px"><div id="xpbar"></div></div><small id="xptext" class="meta"></small></div></div><h3 style="margin-top:20px">🏅 Достижения</h3><div id="achievements" class="summary"></div></div></div>
+<div class="card" style="margin-top:15px"><h3>📌 Статусы квестов</h3><div class="kanban" style="grid-template-columns:repeat(3,1fr)"><div class="col"><div class="colhead">📥 To Do <span class="count" id="miniTodo">0</span></div><div id="miniTodoList"></div></div><div class="col"><div class="colhead">🔥 In Progress <span class="count" id="miniProgress">0</span></div><div id="miniProgressList"></div></div><div class="col"><div class="colhead">🏆 Done <span class="count" id="miniDone">0</span></div><div id="miniDoneList"></div></div></div></div></section>
+<section id="tasks" class="section"><div class="toolbar"><input id="search" placeholder="🔎 Поиск..." oninput="renderTasks()"><select id="statusFilter" onchange="renderTasks()"><option value="all">Все статусы</option><option value="todo">To Do</option><option value="progress">In Progress</option><option value="done">Done</option></select><select id="priorityFilter" onchange="renderTasks()"><option value="all">Все приоритеты</option><option value="high">Высокий</option><option value="medium">Средний</option><option value="low">Низкий</option></select><select id="areaFilter" onchange="renderTasks()"><option value="all">Все сферы</option></select><span class="spacer"></span><button class="btn primary" onclick="openTask()">＋ Добавить</button></div><div class="kanban"><div class="col" data-status="todo" ondragover="dragOver(event)" ondrop="dropTask(event)"><div class="colhead">📥 К выполнению <span class="count" id="ctodo">0</span></div><div id="todo"></div></div><div class="col" data-status="progress" ondragover="dragOver(event)" ondrop="dropTask(event)"><div class="colhead">🔥 В работе <span class="count" id="cprogress">0</span></div><div id="progress"></div></div><div class="col" data-status="done" ondragover="dragOver(event)" ondrop="dropTask(event)"><div class="colhead">🏆 Готово <span class="count" id="cdone">0</span></div><div id="done"></div></div></div></section>
+<section id="matrix" class="section"><div class="card" style="margin-bottom:14px"><h3>🎯 Матрица Эйзенхауэра</h3><span class="meta">Задачи To Do и In Progress автоматически попадают в квадрант по важности и срочности.</span></div><div class="matrix"><div class="quad q1"><h3>🔥 Срочно + важно</h3><small>Сделать сейчас</small><div id="q1"></div></div><div class="quad q2"><h3>🌱 Важно + не срочно</h3><small>Запланировать</small><div id="q2"></div></div><div class="quad q3"><h3>⚡ Не важно + срочно</h3><small>Делегировать</small><div id="q3"></div></div><div class="quad q4"><h3>🌿 Не важно + не срочно</h3><small>Минимизировать</small><div id="q4"></div></div></div></section>
+<section id="weeks" class="section"><div class="card" style="margin-bottom:14px"><div class="split"><div><h3>🗓️ 12-недельный год</h3><span class="meta">3–5 ключевых целей, недельные задачи и привычки.</span></div><button class="btn" onclick="newCycle()">Новый цикл</button></div><input id="cycleTitle" placeholder="Главная цель 12-недельного цикла..." onchange="saveCycleTitle()" style="margin-top:12px"><div class="weeks" id="weeksNav" style="margin-top:12px"></div></div><div class="grid"><div class="card"><div class="split"><h3>🎯 Цели недели</h3><button class="btn" onclick="addGoal()">＋ Цель</button></div><div id="goals"></div><h3 style="margin-top:20px">📝 Комментарий недели</h3><textarea id="weekComment" rows="4" onchange="saveWeekComment()"></textarea></div><div class="card"><h3>⚔️ Задачи недели <small id="weekProgress" class="meta"></small></h3><div class="progress"><div id="weekBar"></div></div><div id="weekTasks" style="margin-top:12px"></div></div></div><div class="card" style="margin-top:14px"><div class="split"><h3>🔥 Трекер привычек</h3><button class="btn" onclick="addHabit()">＋ Привычка</button></div><div class="habitgrid"><table class="table habit-table"><thead id="habitHead"></thead><tbody id="habitBody"></tbody></table></div><div class="meta" style="margin-top:8px">20 XP начисляется один раз за каждый день, когда все привычки отмечены.</div></div><div class="card" style="margin-top:14px"><h3>📊 Итоги цикла</h3><div id="cycleSummary"></div></div></section>
+<section id="finance" class="section"><div class="finance"><div class="stat"><small>Доход за месяц</small><div class="money income" id="income">0</div></div><div class="stat"><small>Расход за месяц</small><div class="money expense" id="expense">0</div></div><div class="stat"><small>Остаток</small><div class="money" id="balance">0</div></div></div><div class="grid"><div class="card"><div class="split"><h3>💳 Транзакции</h3><button class="btn primary" onclick="openTransaction()">＋ Добавить</button></div><div id="transactions"></div></div><div class="card"><h3>📊 Расходы по неделям</h3><div class="split"><button class="btn" onclick="financeMonth(-1)">←</button><b id="financeMonthTitle"></b><button class="btn" onclick="financeMonth(1)">→</button></div><div class="chart" id="chart"></div></div></div><div class="card" style="margin-top:14px"><h3>🎯 Бюджет по категориям</h3><div id="budgets"></div></div><div class="card" style="margin-top:14px"><h3>📆 Годовой обзор</h3><div id="yearFinance"></div></div></section>
+<section id="calendar" class="section"><div class="card"><div class="split" style="margin-bottom:14px"><button class="btn" onclick="month(-1)">←</button><b id="calTitle"></b><button class="btn" onclick="month(1)">→</button></div><div class="calwrap"><div class="calendar" id="calendarGrid"></div></div></div><div class="card" style="margin-top:14px" id="dateDetails"><h3>📅 Выбери дату</h3><div class="empty">Нажми на день календаря, чтобы увидеть задачи, транзакции и тренировку.</div></div></section>
+<section id="workouts" class="section"><div class="toolbar"><span class="spacer"></span><button class="btn primary" onclick="openWorkout()">＋ Новая тренировка</button></div><div id="workoutList"></div></section>
+<section id="measurements" class="section"><div class="toolbar"><span class="spacer"></span><button class="btn primary" onclick="openMeasurement()">＋ Добавить замеры</button></div><div class="grid"><div class="card"><h3>📏 История замеров</h3><div id="measureList"></div></div><div class="card"><h3>⚖️ Динамика веса</h3><canvas id="weightCanvas" width="700" height="280" style="width:100%;height:auto"></canvas></div></div></section>
+<section id="nutrition" class="section"><div class="grid"><div class="card"><h3>🍽️ Калькулятор КБЖУ</h3><div class="form"><div class="field"><label>Пол</label><select id="calcSex"><option value="f">Ж</option><option value="m">М</option></select></div><div class="field"><label>Возраст</label><input id="calcAge" type="number" min="14" max="100"></div><div class="field"><label>Вес, кг</label><input id="calcWeight" type="number" min="20" max="300" step="0.1"></div><div class="field"><label>Рост, см</label><input id="calcHeight" type="number" min="100" max="250"></div><div class="field"><label>Активность</label><select id="calcActivity"><option value="1.2">Сидячий — 1.2</option><option value="1.375">Лёгкая — 1.375</option><option value="1.55">Средняя — 1.55</option><option value="1.725">Высокая — 1.725</option><option value="1.9">Очень высокая — 1.9</option></select></div><div class="field"><label>Цель</label><select id="calcGoal"><option value="loss">Похудение</option><option value="maint">Поддержание</option><option value="gain">Набор</option></select></div></div><div class="macro" style="margin-top:15px"><div class="stat"><small>Калории</small><strong id="calories">—</strong></div><div class="stat"><small>Белки</small><strong id="protein">—</strong></div><div class="stat"><small>Жиры</small><strong id="fat">—</strong></div><div class="stat"><small>Углеводы</small><strong id="carbs">—</strong></div></div></div><div class="card"><h3>📌 Дневник питания</h3><div id="foodSummary"></div><button class="btn primary" onclick="openFood()">＋ Добавить приём пищи</button><div id="foodList" style="margin-top:12px"></div></div></div></section>
+<section id="sync" class="section">
+<div class="card" style="margin-bottom:14px"><div class="split"><div><h3 style="margin:0">☁️ Синхронизация ПК ↔ iPhone</h3><span class="meta">Данные остаются локальными, а при подключении облака копия хранится в вашем Supabase и доступна на обоих устройствах.</span></div><div class="sync-status"><span class="sync-dot" id="syncDot"></span><b id="syncStatus">Не подключено</b></div></div></div>
+<div class="sync-grid">
+<div class="card"><h3>🔐 Подключение</h3><div class="form"><div class="field full"><label>Supabase URL</label><input id="sbUrl" placeholder="https://xxxx.supabase.co"></div><div class="field full"><label>Public anon key</label><input id="sbKey" type="password" placeholder="eyJ..." autocomplete="off"></div><div class="field"><label>Email</label><input id="sbEmail" type="email" autocomplete="email"></div><div class="field"><label>Пароль</label><input id="sbPassword" type="password" autocomplete="current-password"></div></div><div class="modalfoot" style="justify-content:flex-start"><button class="btn primary" onclick="cloudSignIn()">Войти</button><button class="btn" onclick="cloudSignUp()">Создать аккаунт</button><button class="btn" onclick="cloudSync()">↕ Синхронизировать</button><button class="btn" onclick="cloudLogout()">Выйти</button></div><p id="syncInfo" class="meta">Без подключения данные хранятся только в этом браузере.</p></div>
+<div class="card"><h3>📱 iPhone как приложение</h3><div class="install-box"><b>Важно:</b> HTML-файл из приложения «Файлы» не является веб-страницей Safari. Поэтому нажатие «Поделиться» там не даст пункта Safari, а JavaScript и хранилище могут работать с ограничениями.<br><br><b>Правильный способ:</b><br>1. Размести папку трекера на HTTPS-сайте.<br>2. На iPhone открой <b>адрес трекера именно в Safari</b>.<br>3. Нажми кнопку «Поделиться» в Safari.<br>4. Выбери «На экран Домой».<br>5. Запусти трекер с новой иконки — он будет работать как приложение.</div><p class="meta" style="margin-top:10px">Я подготовил трекер как полноценный PWA: манифест, иконки и service worker. В комплекте также есть инструкция по публикации. Открытие через «Файлы» оставляем только как просмотр исходного HTML.</p><div class="codebox">Supabase: создайте таблицу tracker_data и включите RLS. SQL ниже можно скопировать.</div><textarea id="sqlSetup" readonly style="margin-top:8px;min-height:190px">create table if not exists public.tracker_data (user_id uuid primary key references auth.users(id) on delete cascade, payload jsonb not null, updated_at timestamptz not null default now());
+alter table public.tracker_data enable row level security;
+create policy "tracker_select" on public.tracker_data for select using (auth.uid() = user_id);
+create policy "tracker_insert" on public.tracker_data for insert with check (auth.uid() = user_id);
+create policy "tracker_update" on public.tracker_data for update using (auth.uid() = user_id) with check (auth.uid() = user_id);</textarea><button class="btn" style="margin-top:8px" onclick="copySql()">Скопировать SQL</button></div>
+</div>
+<div class="card" style="margin-top:14px"><h3>🔄 Как будет работать</h3><div class="summary"><div class="stat"><small>ПК</small><strong>💻</strong><small>работает офлайн</small></div><div class="stat"><small>Облако</small><strong>☁️</strong><small>общая копия данных</small></div><div class="stat"><small>iPhone</small><strong>📱</strong><small>тот же интерфейс</small></div></div><p class="meta" style="margin-top:10px">После входа изменения сохраняются локально сразу и автоматически отправляются в облако. При открытии на другом устройстве более новая облачная версия загружается автоматически.</p></div>
+</section>
+<section id="rewards" class="section"><div class="split" style="margin-bottom:14px"><div><h3 style="margin:0">🏆 Магазин наград</h3><span class="meta">Обменивай XP на реальные приятные события.</span></div><button class="btn primary" onclick="openReward()">＋ Добавить награду</button></div><div class="rewardgrid" id="rewardGrid"></div></section>
+</main></div>
 
-      <!-- Задачи -->
-      <section id="tab-tasks" class="">
-        <div class="card">
-          <h3>📝 Новые задачи</h3>
-          <input type="text" id="task-input" placeholder="Что сегодня прокачиваем?">
-          <br><br>
-          <button class="btn primary" onclick="addTask()">Добавить задачу</button>
-        </div>
-        <div id="tasks-list"></div>
-      </section>
-
-      <!-- Тренировки -->
-      <section id="tab-workout" class="hidden">
-        <div class="card">
-          <h3>🏋️ Сегодня в зале</h3>
-          <p>Отмечай подходы и вес.</p>
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px">
-            <input type="number" id="work-weight" placeholder="Вес (кг)">
-            <input type="number" id="work-sets" placeholder="Подходы">
-            <input type="number" id="work-reps" placeholder="Повторы">
-          </div>
-          <br>
-          <button class="btn primary" onclick="logWorkout()">Записать тренировку</button>
-          <div id="workout-log" style="margin-top:15px"></div>
-        </div>
-      </section>
-
-      <!-- Финансы -->
-      <section id="tab-finance" class="hidden">
-        <div class="card">
-          <h3>💰 Бюджет и финансы</h3>
-          <p>Для сына: учёт карманных и заработка.</p>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-            <input type="number" id="fin-amount" placeholder="Сумма">
-            <select id="fin-type"><option value="income">Доход</option><option value="expense">Расход</option></select>
-          </div>
-          <input type="text" id="fin-desc" placeholder="Описание (например: «сборы в школу»)">
-          <br><br>
-          <button class="btn primary" onclick="logFinance()">Записать</button>
-          <div id="finance-log" style="margin-top:15px"></div>
-        </div>
-      </section>
-
-      <!-- Привычки -->
-      <section id="tab-habits" class="hidden">
-        <div class="card">
-          <h3>🧠 Привычки (система 12 недель)</h3>
-          <p>Ставь галочки каждый день — прогресс виден сразу.</p>
-          <div id="habits-list">
-            <div class="task"><div class="check" onclick="toggleHabit(this)"></div><span>Пить воду (2 л)</span></div>
-            <div class="task"><div class="check" onclick="toggleHabit(this)"></div><span>10 000 шагов</span></div>
-            <div class="task"><div class="check" onclick="toggleHabit(this)"></div><span>Разговор с сыном 15 минут</span></div>
-          </div>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <script>
-    function toggleTheme() {
-      const body = document.body;
-      const isLight = body.getAttribute('data-theme') === 'light';
-      body.setAttribute('data-theme', isLight ? null : 'light');
-    }
-
-    function switchTab(tabName) {
-      document.querySelectorAll('section').forEach(el => el.classList.add('hidden'));
-      document.querySelectorAll('.nav button').forEach(btn => btn.classList.remove('active'));
-      
-      document.getElementById('tab-' + tabName).classList.remove('hidden');
-      document.getElementById('btn-' + tabName).classList.add('active');
-    }
-
-    function addTask() {
-      const input = document.getElementById('task-input');
-      const text = input.value.trim();
-      if (!text) return;
-      
-      const list = document.getElementById('tasks-list');
-      const taskEl = document.createElement('div');
-      taskEl.className = 'task';
-      taskEl.innerHTML = `
-        <div class="check" onclick="toggleTask(this, event)"></div>
-        <span>${text}</span>
-      `;
-      list.appendChild(taskEl);
-      input.value = '';
-    }
-
-    function toggleTask(el, e) {
-      e.stopPropagation();
-      el.classList.toggle('on');
-    }
-
-    function logWorkout() {
-      const w = document.getElementById('work-weight').value;
-      const s = document.getElementById('work-sets').value;
-      const r = document.getElementById('work-reps').value;
-      if (!w || !s || !r) return alert('Заполни все поля');
-      
-      const log = document.getElementById('workout-log');
-      const entry = document.createElement('div');
-      entry.style.margin = '8px 0';
-      entry.innerHTML = `<b>🏋️ ${w} кг × ${s} подходов × ${r} повторов</b>`;
-      log.prepend(entry);
-      document.getElementById('work-weight').value = '';
-      document.getElementById('work-sets').value = '';
-      document.getElementById('work-reps').value = '';
-    }
-
-    function logFinance() {
-      const amt = document.getElementById('fin-amount').value;
-      const type = document.getElementById('fin-type').value;
-      const desc = document.getElementById('fin-desc').value.trim();
-      if (!amt) return alert('Укажи сумму');
-      
-      const log = document.getElementById('finance-log');
-      const entry = document.createElement('div');
-      entry.style.margin = '8px 0';
-      const label = type === 'income' ? '🟢 Доход' : '🔴 Расход';
-      entry.innerHTML = `${label}: ${amt} ₽ — ${desc || 'без описания'}`;
-      log.prepend(entry);
-    }
-
-    function toggleHabit(el) {
-      el.classList.toggle('on');
-    }
-  </script>
-</body>
-</html>
+<!-- Modals -->
+<div class="modalbg" id="taskModal"><div class="modal"><div class="modalhead"><h2 id="taskModalTitle">Новая задача</h2><button class="btn" onclick="closeModal('taskModal')">✕</button></div><form onsubmit="saveTask(event)"><input type="hidden" id="taskId"><div class="form"><div class="field full"><label>Название *</label><input id="taskTitle" required></div><div class="field"><label>Статус</label><select id="taskStatus"><option value="todo">To Do</option><option value="progress">In Progress</option><option value="done">Done</option></select></div><div class="field"><label>Приоритет</label><select id="taskPriority"><option value="low">Низкий — 10 XP</option><option value="medium">Средний — 20 XP</option><option value="high">Высокий — 30 XP</option></select></div><div class="field"><label>Срок</label><input type="date" id="taskDue"></div><div class="field"><label>Сфера</label><select id="taskArea"></select></div><div class="field"><label>Важность</label><select id="taskImportance"><option value="high">Важно</option><option value="low">Не важно</option></select></div><div class="field"><label>Срочность</label><select id="taskUrgency"><option value="high">Срочно</option><option value="low">Не срочно</option></select></div><div class="field"><label>Неделя 12-недельного цикла</label><select id="taskWeek"></select></div></div><div class="modalfoot"><button type="button" class="btn" onclick="closeModal('taskModal')">Отмена</button><button class="btn primary">Сохранить</button></div></form></div></div>
+<div class="modalbg" id="transactionModal"><div class="modal"><div class="modalhead"><h2>Новая транзакция</h2><button class="btn" onclick="closeModal('transactionModal')">✕</button></div><form onsubmit="saveTransaction(event)"><div class="form"><div class="field"><label>Тип</label><select id="trType"><option value="income">Доход</option><option value="expense">Расход</option></select></div><div class="field"><label>Категория</label><select id="trCategory"></select></div><div class="field"><label>Сумма *</label><input id="trAmount" type="number" min="0.01" step="0.01" required></div><div class="field"><label>Дата</label><input id="trDate" type="date" required></div><div class="field full"><label>Комментарий</label><input id="trNote"></div></div><div class="modalfoot"><button type="button" class="btn" onclick="closeModal('transactionModal')">Отмена</button><button class="btn primary">Добавить</button></div></form></div></div>
+<div class="modalbg" id="goalModal"><div class="modal"><div class="modalhead"><h2>Цель недели</h2><button class="btn" onclick="closeModal('goalModal')">✕</button></div><form onsubmit="saveGoal(event)"><div class="field"><label>Название *</label><input id="goalTitle" required></div><div class="field" style="margin-top:10px"><label>Привязка к цели цикла</label><select id="goalCycle"></select></div><div class="modalfoot"><button type="button" class="btn" onclick="closeModal('goalModal')">Отмена</button><button class="btn primary">Сохранить</button></div></form></div></div>
+<div class="modalbg" id="workoutModal"><div class="modal wide"><div class="modalhead"><h2>Новая тренировка</h2><button class="btn" onclick="closeModal('workoutModal')">✕</button></div><form onsubmit="saveWorkout(event)"><div class="form"><div class="field"><label>Дата</label><input id="woDate" type="date" required></div><div class="field"><label>Тип</label><select id="woType"><option>Силовая</option><option>Кардио</option><option>Растяжка</option><option>Функциональная</option><option>Единоборства</option></select></div><div class="field full"><label>Название *</label><input id="woName" required placeholder="Например, День ног"></div><div class="field"><label>Самочувствие: <span id="feelVal">7</span>/10</label><input id="woFeel" type="range" min="1" max="10" value="7" oninput="feelVal.textContent=this.value"></div><div class="field"><label>Сон, часов</label><input id="woSleep" type="number" min="0" max="24" step="0.5"></div><div class="field full"><label>Комментарий</label><textarea id="woNote" rows="2"></textarea></div></div><h3 style="margin-top:18px">Журнал упражнений</h3><div style="overflow:auto"><table class="table"><thead><tr><th>Упражнение</th><th>Подходы</th><th>Повторы</th><th>Вес кг</th><th>Темп</th><th>Отдых с</th><th>Примечание</th><th></th></tr></thead><tbody id="exerciseRows"></tbody></table></div><button type="button" class="btn" onclick="addExerciseRow()" style="margin-top:9px">＋ Добавить упражнение</button><div class="notice" style="margin-top:12px">Суммарный объём: <b id="woVolume">0</b></div><div class="modalfoot"><button type="button" class="btn" onclick="closeModal('workoutModal')">Отмена</button><button class="btn primary">Сохранить · +30 XP</button></div></form></div></div>
+<div class="modalbg" id="measurementModal"><div class="modal"><div class="modalhead"><h2>Новые замеры</h2><button class="btn" onclick="closeModal('measurementModal')">✕</button></div><form onsubmit="saveMeasurement(event)"><div class="form"><div class="field"><label>Дата</label><input id="meDate" type="date" required></div><div class="field"><label>Вес, кг</label><input id="meWeight" type="number" min="20" max="300" step="0.1"></div><div class="field"><label>Талия, см</label><input id="meWaist" type="number" min="1" step="0.1"></div><div class="field"><label>Бедро, см</label><input id="meThigh" type="number" min="1" step="0.1"></div><div class="field"><label>Рука, см</label><input id="meArm" type="number" min="1" step="0.1"></div><div class="field"><label>Грудь, см</label><input id="meChest" type="number" min="1" step="0.1"></div><div class="field full"><label>Фото (необязательно)</label><input id="mePhoto" type="file" accept="image/*"><span class="file">Фото сохраняется локально в браузере.</span></div><div class="field full"><label>Комментарий</label><textarea id="meNote" rows="2"></textarea></div></div><div class="modalfoot"><button type="button" class="btn" onclick="closeModal('measurementModal')">Отмена</button><button class="btn primary">Сохранить · +10 XP</button></div></form></div></div>
+<div class="modalbg" id="foodModal"><div class="modal"><div class="modalhead"><h2>Приём пищи</h2><button class="btn" onclick="closeModal('foodModal')">✕</button></div><form onsubmit="saveFood(event)"><div class="form"><div class="field"><label>Дата</label><input id="foodDate" type="date" required></div><div class="field"><label>Приём пищи</label><select id="foodMeal"><option>Завтрак</option><option>Обед</option><option>Ужин</option><option>Перекус</option></select></div><div class="field full"><label>Блюдо *</label><input id="foodDish" required></div><div class="field"><label>Калории</label><input id="foodCal" type="number" min="0" step="1" required></div><div class="field"><label>Белки, г</label><input id="foodP" type="number" min="0" step="0.1" required></div><div class="field"><label>Жиры, г</label><input id="foodF" type="number" min="0" step="0.1" required></div><div class="field"><label>Углеводы, г</label><input id="foodC" type="number" min="0" step="0.1" required></div></div><div class="modalfoot"><button type="button" class="btn" onclick="closeModal('foodModal')">Отмена</button><button class="btn primary">Добавить</button></div></form></div></div>
+<div class="modalbg" id="rewardModal"><div class="modal"><div class="modalhead"><h2 id="rewardModalTitle">Новая награда</h2><button class="btn" onclick="closeModal('rewardModal')">✕</button></div><form onsubmit="saveReward(event)"><input type="hidden" id="rewardId"><div class="form"><div class="field"><label>Иконка</label><input id="rewardIcon" value="🎁" required></div><div class="field"><label>Цена XP</label><input id="rewardCost" type="number" min="1" step="1" required></div><div class="field full"><label>Название *</label><input id="rewardName" required></div><div class="field full"><label>Описание</label><textarea id="rewardDesc" rows="2"></textarea></div></div><div class="modalfoot"><button type="button" class="btn" onclick="closeModal('rewardModal')">Отмена</button><button class="btn primary">Сохранить</button></div></form></div></div>
+<div class="modalbg" id="confirmModal"><div class="modal" style="max-width:430px"><div class="modalhead"><h2 id="confirmTitle">Подтверждение</h2></div><div id="confirmText" class="meta"></div><div class="modalfoot"><button class="btn" onclick="resolveConfirm(false)">Отмена</button><button class="btn primary" onclick="resolveConfirm(true)">Подтвердить</button></div></div></div>
+<div class="modalbg" id="dateModal"><div class="modal"><div class="modalhead"><h2 id="dateModalTitle">Дата</h2><button class="btn" onclick="closeModal('dateModal')">✕</button></div><div id="dateModalBody"></div></div></div>
+<div class="toast" id="toast"></div>
+<script>
+'use strict';
+const KEYS={tasks:'questflow_tasks',habits:'questflow_habits',finance:'questflow_finance',workouts:'questflow_workouts',measurements:'questflow_measurements',nutrition:'questflow_nutrition',rewards:'questflow_rewards',xp:'questflow_xp',achievements:'questflow_achievements',week:'questflow_12week'};
+const areas=['Здоровье','Финансы','Работа','Учёба','Дом','Спорт','Хобби','Семья'];
+const cats=['Продукты','Жильё','Транспорт','Спорт','Здоровье','Развлечения','Одежда','Образование','Прочее'];
+const defaultRewards=[['✈️','Поездка','Большая награда за большой прогресс.',1000],['🍜','Ресторан','Маленькая награда за стабильность.',300],['🧖','SPA','Восстановление после спринта.',500],['🎮','Вечер игр','Время для отдыха.',200],['📚','Книга','Новая книга для развития.',150]];
+const blankWeek=()=>({title:'',goals:[],habits:['Вода','Тренировка','Чтение','Сон 8ч','Питание','Прогулка'],habitDays:{},comment:''});
+let data={tasks:[],habits:{},finance:{transactions:[],budgets:{}},workouts:[],measurements:[],nutrition:{entries:[],calc:{sex:'f',age:30,weight:60,height:165,activity:1.55,goal:'maint'}},rewards:[],xp:0,achievements:[],week:{cycleTitle:'',current:1,weeks:Array.from({length:12},()=>blankWeek())}};
+let dragId=null,cal=new Date(),finCal=new Date(),pendingConfirm=null,editWorkout=null;
+function clone(x){return JSON.parse(JSON.stringify(x))}
+function load(){try{Object.keys(KEYS).forEach(k=>{let raw=localStorage.getItem(KEYS[k]);if(raw!=null){let v=JSON.parse(raw);if(k==='finance')data.finance={...data.finance,...v};else if(k==='week')data.week={...data.week,...v};else if(k==='nutrition')data.nutrition={...data.nutrition,...v};else if(k==='xp')data.xp=+v||0;else if(k==='achievements')data.achievements=Array.isArray(v)?v:[];else data[k]=v}});data.week.weeks=(data.week.weeks||[]).concat(Array.from({length:12},()=>blankWeek())).slice(0,12);data.rewards=data.rewards?.length?data.rewards:defaultRewards.map(r=>({id:uid(),icon:r[0],name:r[1],desc:r[2],cost:r[3]}));}catch(e){console.warn(e)}}
+function save(){localStorage.setItem(KEYS.tasks,JSON.stringify(data.tasks));localStorage.setItem(KEYS.habits,JSON.stringify(data.habits));localStorage.setItem(KEYS.finance,JSON.stringify(data.finance));localStorage.setItem(KEYS.workouts,JSON.stringify(data.workouts));localStorage.setItem(KEYS.measurements,JSON.stringify(data.measurements));localStorage.setItem(KEYS.nutrition,JSON.stringify(data.nutrition));localStorage.setItem(KEYS.rewards,JSON.stringify(data.rewards));localStorage.setItem(KEYS.xp,String(data.xp));localStorage.setItem(KEYS.achievements,JSON.stringify(data.achievements));localStorage.setItem(KEYS.week,JSON.stringify(data.week));renderAll();queueCloudSync()}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function today(){let d=new Date(),o=d.getTimezoneOffset();return new Date(d-o*60000).toISOString().slice(0,10)}
+function money(n){return new Intl.NumberFormat('ru-RU',{maximumFractionDigits:2}).format(n||0)}
+function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
+function dateRu(s){return s?new Date(s+'T00:00').toLocaleDateString('ru-RU',{day:'numeric',month:'short'}):'Без срока'}
+function monthKey(d){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`}
+function taskXP(t){return {low:10,medium:20,high:30}[t.priority]||10}
+function levelInfo(){let n=Math.floor(data.xp/500)+1,p=data.xp%500,rank=n<=2?'Новичок':n<=5?'Искатель':n<=9?'Воин':n<=14?'Мастер':'Легенда',avatar=n<=2?'🧙':n<=5?'🧝':n<=9?'🦸':n<=14?'🗡️':'👑';return{n,p,rank,avatar}}
+function addXP(n,msg=''){let before=levelInfo();data.xp=Math.max(0,data.xp+n);let after=levelInfo();if(msg)toast((n>=0?'+':'')+n+' XP'+(msg?' — '+msg:''));if(after.n>before.n)toast('🎉 Новый уровень: '+after.n+' · '+after.rank);checkAchievements();save()}
+function awardOnce(key,n,msg){let k='bonus:'+key;if(!data.achievements.includes(k)){data.achievements.push(k);data.xp+=n;toast('+'+n+' XP — '+msg)}}
+function toast(s){let x=document.getElementById('toast');x.textContent=s;x.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>x.classList.remove('show'),2600)}
+function openModal(id){document.getElementById(id).classList.add('open')}function closeModal(id){document.getElementById(id).classList.remove('open')}
+function confirmBox(title,text,fn){pendingConfirm=fn;confirmTitle.textContent=title;confirmText.textContent=text;openModal('confirmModal')}
+function resolveConfirm(ok){closeModal('confirmModal');let f=pendingConfirm;pendingConfirm=null;if(ok&&f)f()}
+function navTo(s){document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));document.getElementById(s).classList.add('active');document.querySelectorAll('#nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===s));let m={dashboard:['Твоя продуктивность — твой RPG-путь','Каждый маленький квест двигает героя вперёд.'],tasks:['Задачи','Управляй квестами через доску.'],matrix:['Матрица Эйзенхауэра','Отделяй важное от срочного.'],weeks:['12 недель','Короткие спринты, привычки и цели.'],finance:['Финансы','Следи за ресурсами и бюджетом.'],calendar:['Календарь','Задачи, деньги и тренировки в контексте даты.'],workouts:['Тренировки','Журнал тренировок и объём.'],measurements:['Замеры','Динамика тела и веса.'],nutrition:['КБЖУ','Расчёт целей и дневник питания.'],rewards:['Награды','Превращай XP в приятные события.'],sync:['Синхронизация','Один трекер на ПК и iPhone.']}[s];title.textContent=m[0];subtitle.textContent=m[1]}
+document.querySelectorAll('#nav button').forEach(b=>b.onclick=()=>navTo(b.dataset.s));
+function fillSelects(){taskArea.innerHTML=areas.map(x=>`<option>${x}</option>`).join('');taskWeek.innerHTML=Array.from({length:12},(_,i)=>`<option value="${i+1}">Неделя ${i+1}</option>`).join('');trCategory.innerHTML=cats.map(x=>`<option>${x}</option>`).join('');areaFilter.innerHTML='<option value="all">Все сферы</option>'+areas.map(x=>`<option>${x}</option>`).join('')}
+function openTask(idv=null){taskId.value=idv||'';taskModalTitle.textContent=idv?'Редактировать задачу':'Новая задача';let t=idv?data.tasks.find(x=>x.id===idv):null;if(t){taskTitle.value=t.title;taskStatus.value=t.status;taskPriority.value=t.priority;taskDue.value=t.due||'';taskArea.value=t.area;taskImportance.value=t.importance;taskUrgency.value=t.urgency;taskWeek.value=t.week||data.week.current}else{taskTitle.value='';taskStatus.value='todo';taskPriority.value='medium';taskDue.value='';taskArea.value=areas[0];taskImportance.value='high';taskUrgency.value='high';taskWeek.value=data.week.current}openModal('taskModal');setTimeout(()=>taskTitle.focus(),50)}
+function saveTask(e){e.preventDefault();let idv=taskId.value,t={id:idv||uid(),title:taskTitle.value.trim(),status:taskStatus.value,priority:taskPriority.value,due:taskDue.value,area:taskArea.value,importance:taskImportance.value,urgency:taskUrgency.value,week:+taskWeek.value};if(!t.title)return;let old=idv&&data.tasks.find(x=>x.id===idv);if(old){if(old.status==='done'&&t.status!=='done')data.xp=Math.max(0,data.xp-taskXP(old));if(old.status!=='done'&&t.status==='done')data.xp+=taskXP(t);Object.assign(old,t)}else{data.tasks.unshift(t);if(t.status==='done')data.xp+=taskXP(t)}closeModal('taskModal');checkAchievements();save();toast('Задача сохранена')}
+function toggleTask(idv){let t=data.tasks.find(x=>x.id===idv);if(!t)return;if(t.status==='done'){t.status='todo';data.xp=Math.max(0,data.xp-taskXP(t));toast('Задача возвращена в To Do')}else{t.status='done';data.xp+=taskXP(t);toast('+'+taskXP(t)+' XP — квест выполнен!')}checkAchievements();save()}
+function deleteTask(idv){let t=data.tasks.find(x=>x.id===idv);if(!t)return;confirmBox('Удалить задачу?','Удалить «'+t.title+'»?',()=>{if(t.status==='done')data.xp=Math.max(0,data.xp-taskXP(t));data.tasks=data.tasks.filter(x=>x.id!==idv);save();toast('Задача удалена')})}
+function taskHTML(t){return `<div class="task" draggable="true" ondragstart="dragId='${t.id}'"><h4>${esc(t.title)}</h4><div class="tags"><span class="tag ${t.priority}">${{low:'Низкий',medium:'Средний',high:'Высокий'}[t.priority]}</span><span class="tag">${esc(t.area)}</span><span class="tag">+${taskXP(t)} XP</span>${t.due?`<span class="tag">📅 ${dateRu(t.due)}</span>`:''}</div><div class="taskfoot"><span>${t.status==='done'?'🏆 Выполнено':t.status==='progress'?'🔥 В работе':'📥 К выполнению'}</span><span class="actions"><button title="Выполнить" onclick="toggleTask('${t.id}')">✓</button><button title="Редактировать" onclick="openTask('${t.id}')">✏️</button><button title="Удалить" onclick="deleteTask('${t.id}')">🗑️</button></span></div></div>`}
+function filteredTasks(){let q=(search?.value||'').toLowerCase(),sf=statusFilter?.value||'all',pf=priorityFilter?.value||'all',af=areaFilter?.value||'all';return data.tasks.filter(t=>(!q||t.title.toLowerCase().includes(q)||t.area.toLowerCase().includes(q))&&(sf==='all'||t.status===sf)&&(pf==='all'||t.priority===pf)&&(af==='all'||t.area===af))}
+function renderTasks(){let g={todo:[],progress:[],done:[]};filteredTasks().forEach(t=>g[t.status].push(t));for(let s of Object.keys(g)){document.getElementById(s).innerHTML=g[s].length?g[s].map(taskHTML).join(''):'<div class="empty">Нет задач</div>';document.getElementById('c'+s).textContent=g[s].length}}
+function dragOver(e){e.preventDefault();e.currentTarget.classList.add('over')}function dropTask(e){e.preventDefault();e.currentTarget.classList.remove('over');let t=data.tasks.find(x=>x.id===dragId),s=e.currentTarget.dataset.status;if(!t||t.status===s)return;if(t.status==='done')data.xp=Math.max(0,data.xp-taskXP(t));t.status=s;if(s==='done')data.xp+=taskXP(t);save()}
+function renderMatrix(){let q={q1:[],q2:[],q3:[],q4:[]};data.tasks.filter(t=>t.status!=='done').forEach(t=>{let k=t.importance==='high'?(t.urgency==='high'?'q1':'q2'):(t.urgency==='high'?'q3':'q4');q[k].push(t)});for(let k in q)document.getElementById(k).innerHTML=q[k].length?q[k].map(t=>`<div class="row"><div class="grow"><div class="name">${esc(t.title)}</div><div class="meta">${esc(t.area)} · ${dateRu(t.due)}</div></div><button class="btn" onclick="toggleTask('${t.id}')">✓</button><button class="btn" onclick="openTask('${t.id}')">✏️</button></div>`).join(''):'<div class="empty">Пусто ✨</div>'}
+function renderDashboard(){let L=levelInfo(),done=data.tasks.filter(t=>t.status==='done').length,active=data.tasks.filter(t=>t.status!=='done').sort((a,b)=>taskXP(b)-taskXP(a)).slice(0,5),mk=monthKey(new Date()),inc=data.finance.transactions.filter(t=>t.type==='income'&&t.date.startsWith(mk)).reduce((a,x)=>a+x.amount,0),ex=data.finance.transactions.filter(t=>t.type==='expense'&&t.date.startsWith(mk)).reduce((a,x)=>a+x.amount,0),now=new Date(),weekStart=new Date(now);weekStart.setDate(now.getDate()-(now.getDay()||7)+1);let work=data.workouts.filter(w=>new Date(w.date+'T00:00')>=weekStart).length;stTotal.textContent=data.tasks.length;stDone.textContent=done;stXP.textContent=data.xp;stBal.textContent=money(inc-ex);stWork.textContent=work;stStreak.textContent=habitStreak();sideRank.textContent=L.rank+' · ур. '+L.n;sideXP.textContent=L.p+' / 500 XP';sideBar.style.width=(L.p/5)+'%';dashAvatar.textContent=L.avatar;heroAvatar.textContent=L.avatar;rankName.textContent=L.rank;xpbar.style.width=(L.p/5)+'%';xptext.textContent=`Уровень ${L.n} · ${L.p} / 500 XP`;dashTasks.innerHTML=active.length?active.map(t=>`<div class="row"><button class="habit-check" onclick="toggleTask('${t.id}')">✓</button><div class="grow"><div class="name">${esc(t.title)}</div><div class="meta">${esc(t.area)} · ${dateRu(t.due)}</div></div><span class="tag ${t.priority}">+${taskXP(t)}</span></div>`).join(''):'<div class="empty">Все квесты выполнены! 🎉</div>';['todo','progress','done'].forEach(s=>{let arr=data.tasks.filter(t=>t.status===s).slice(0,3);document.getElementById('mini'+s[0].toUpperCase()+s.slice(1)).textContent=data.tasks.filter(t=>t.status===s).length;document.getElementById('mini'+s[0].toUpperCase()+s.slice(1)+'List').innerHTML=arr.length?arr.map(t=>`<div class="row"><div class="grow name">${esc(t.title)}</div><button class="btn" onclick="openTask('${t.id}')">✏️</button></div>`).join(''):'<div class="empty">Пусто</div>'});renderAchievements()}
+function achievementDefs(){return[['first','🌟','Первая задача','Создай хотя бы одну задачу.',()=>data.tasks.length>=1],['quest7','⚔️','7 квестов','Выполни 7 задач.',()=>data.tasks.filter(t=>t.status==='done').length>=7],['quest10','🏆','10 квестов','Выполни 10 задач.',()=>data.tasks.filter(t=>t.status==='done').length>=10],['xp1000','💎','1000 XP','Набери 1000 XP.',()=>data.xp>=1000],['habit7','🔥','7 дней','Серия привычек 7 дней.',()=>habitStreak()>=7],['work10','🏋️','10 тренировок','Добавь 10 тренировок.',()=>data.workouts.length>=10],['measure','📏','Первый замер','Добавь первые замеры.',()=>data.measurements.length>=1],['finance5','💰','5 транзакций','Добавь 5 транзакций.',()=>data.finance.transactions.length>=5],['food7','🍽️','7 записей питания','Добавь 7 записей питания.',()=>data.nutrition.entries.length>=7],['goal3','🎯','3 цели','Создай 3 цели недели.',()=>data.week.weeks.reduce((a,w)=>a+w.goals.length,0)>=3],['cycle','🗓️','12 недель','Создай первый 12-недельный цикл.',()=>!!data.week.cycleTitle],['reward','🎁','Магазин наград','Создай свою награду.',()=>data.rewards.length>5],['high','⚡','Высокая планка','Выполни задачу высокого приоритета.',()=>data.tasks.some(t=>t.priority==='high'&&t.status==='done')],['balance','📈','В плюсе','Иметь положительный баланс текущего месяца.',()=>{let m=monthKey(new Date()),i=data.finance.transactions.filter(t=>t.date.startsWith(m)&&t.type==='income').reduce((a,x)=>a+x.amount,0),e=data.finance.transactions.filter(t=>t.date.startsWith(m)&&t.type==='expense').reduce((a,x)=>a+x.amount,0);return i>e}],['work3','🥋','Тренировочная неделя','Сделать 3 тренировки в одну неделю.',()=>{let weeks={};data.workouts.forEach(w=>{let d=new Date(w.date+'T00:00'),k=weekKey(d);weeks[k]=(weeks[k]||0)+1});return Object.values(weeks).some(n=>n>=3)}]]}
+function checkAchievements(){let defs=achievementDefs();defs.forEach(a=>{if(a[5]&&a[5]()&&!data.achievements.includes(a[0])){data.achievements.push(a[0]);toast('🏅 Достижение: '+a[2])}})}
+function renderAchievements(){let defs=achievementDefs();achievements.innerHTML=defs.slice(0,6).map(a=>{let on=data.achievements.includes(a[0])||a[5]();return `<div title="${esc(a[3])}" style="text-align:center;padding:9px;border:1px solid var(--line);border-radius:12px;opacity:${on?1:.4};background:${on?'#2b2317':'#15121c'}"><div style="font-size:23px">${a[1]}</div><small>${a[2]}</small></div>`}).join('')}
+// 12 weeks + habits
+function selectWeek(n){data.week.current=n;save()}function saveCycleTitle(){data.week.cycleTitle=cycleTitle.value.trim();save()}function saveWeekComment(){data.week.weeks[data.week.current-1].comment=weekComment.value;save()}function addGoal(){goalTitle.value='';goalCycle.innerHTML=cycleGoalsOptions();openModal('goalModal');setTimeout(()=>goalTitle.focus(),30)}function cycleGoalsOptions(){let all=[];data.week.weeks.forEach((w,i)=>w.goals.forEach(g=>all.push(`<option value="${esc(g.id)}">Неделя ${i+1}: ${esc(g.title)}</option>`)));return '<option value="">Без привязки</option>'+all.join('')}
+function saveGoal(e){e.preventDefault();let w=data.week.weeks[data.week.current-1];w.goals.push({id:uid(),title:goalTitle.value.trim(),progress:0,cycleGoal:goalCycle.value||''});closeModal('goalModal');save();toast('Цель добавлена')}
+function deleteGoal(i){let w=data.week.weeks[data.week.current-1];confirmBox('Удалить цель?','Цель будет удалена из этой недели.',()=>{w.goals=w.goals.filter(x=>x.id!==i);save()})}
+function goalProgress(i,v){let g=data.week.weeks[data.week.current-1].goals.find(x=>x.id===i);if(g)g.progress=+v;save()}
+function addHabit(){let w=data.week.weeks[data.week.current-1];let name=promptFree('Название новой привычки','Например: 10 минут медитации');if(!name)return;w.habits.push(name);save()}
+function promptFree(titleText,placeholder=''){return window._promptCustom?window._promptCustom(titleText,placeholder):null}
+function renderWeeks(){let w=data.week.weeks[data.week.current-1];weeksNav.innerHTML=data.week.weeks.map(x=>`<button class="week ${x===w?'active':''}" onclick="selectWeek(${x.n||data.week.weeks.indexOf(x)+1})">Неделя ${x.n||data.week.weeks.indexOf(x)+1}<br><small>${x.goals.length} целей</small></button>`).join('');cycleTitle.value=data.week.cycleTitle||'';weekComment.value=w.comment||'';goals.innerHTML=w.goals.length?w.goals.map(g=>`<div class="row"><div class="grow"><b>${esc(g.title)}</b><div class="progress" style="margin-top:7px"><div style="width:${g.progress}%"></div></div><input type="range" min="0" max="100" value="${g.progress}" onchange="goalProgress('${g.id}',this.value)" style="margin-top:7px"></div><button class="btn" onclick="deleteGoal('${g.id}')">🗑️</button></div>`).join(''):'<div class="empty">Добавь цель недели 🎯</div>';let ts=data.tasks.filter(t=>t.week===data.week.current),done=ts.filter(t=>t.status==='done').length,p=ts.length?Math.round(done/ts.length*100):0;weekProgress.textContent=`${done}/${ts.length}`;weekBar.style.width=p+'%';weekTasks.innerHTML=ts.length?ts.map(t=>`<div class="row"><button class="habit-check ${t.status==='done'?'on':''}" onclick="toggleTask('${t.id}')">${t.status==='done'?'✓':''}</button><div class="grow"><div class="name">${esc(t.title)}</div><div class="meta">${dateRu(t.due)} · ${t.priority}</div></div></div>`).join(''):'<div class="empty">Нет задач этой недели</div>';renderHabitTable();renderCycleSummary()}
+function renderHabitTable(){let w=data.week.weeks[data.week.current-1],days=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];habitHead.innerHTML='<tr><th>Привычка</th>'+days.map((d,i)=>`<th>${d}<br><small>${habitPct(w,i)}%</small></th>`).join('')+'<th>Удалить</th></tr>';habitBody.innerHTML=w.habits.map((h,hi)=>`<tr><td>${esc(h)}</td>${days.map((_,di)=>`<td><button class="habit-check ${habitDone(w,hi,di)?'on':''}" onclick="toggleHabit(${hi},${di})">${habitDone(w,hi,di)?'✓':''}</button></td>`).join('')}<td><button class="btn" onclick="deleteHabit(${hi})">🗑️</button></td></tr>`).join('')||'<tr><td colspan="9" class="empty">Добавь привычки</td></tr>'}
+function habitDone(w,hi,di){return !!(w.habitDays?.[di]?.[hi])}function habitPct(w,di){return w.habits.length?Math.round(w.habits.filter((_,hi)=>habitDone(w,hi,di)).length/w.habits.length*100):0}
+function toggleHabit(hi,di){let w=data.week.weeks[data.week.current-1];w.habitDays=w.habitDays||{};w.habitDays[di]=w.habitDays[di]||{};let before=!!w.habitDays[di][hi];w.habitDays[di][hi]=!before;if(w.habits.length&&habitPct(w,di)===100&&!before){let key=`habit:${data.week.current}:${di}`;if(!data.achievements.includes(key)){data.achievements.push(key);data.xp+=20;toast('+20 XP — все привычки за день!')}}save()}
+function deleteHabit(hi){let w=data.week.weeks[data.week.current-1];w.habits.splice(hi,1);Object.values(w.habitDays||{}).forEach(d=>{let n={};Object.keys(d).forEach(k=>{let i=+k;if(i<hi)n[i]=d[k];else if(i>hi)n[i-1]=d[k]});});save()}
+function habitStreak(){let streak=0,w=data.week.weeks[data.week.current-1],todayIdx=(new Date().getDay()||7)-1;for(let i=todayIdx;i>=0;i--){if(w.habits.length&&habitPct(w,i)===100)streak++;else break}return streak}
+function renderCycleSummary(){let total=0,complete=0;data.week.weeks.forEach(w=>w.goals.forEach(g=>{total++;if(g.progress>=100)complete++}));cycleSummary.innerHTML=`<div class="summary"><div class="stat"><small>Целей недель</small><strong>${total}</strong></div><div class="stat"><small>Завершено</small><strong>${complete}</strong></div><div class="stat"><small>XP цикла</small><strong>${data.xp}</strong></div></div><div class="meta" style="margin-top:10px">Прогресс целей цикла считается по прогрессу недельных целей, которые к ним привязаны.</div>`}
+function newCycle(){confirmBox('Новый 12-недельный цикл?','Текущий цикл будет заменён пустым циклом. Задачи, финансы и история не удалятся.',()=>{data.week={cycleTitle:'',current:1,weeks:Array.from({length:12},()=>blankWeek())};save();toast('Новый цикл создан')})}
+// finance
+function openTransaction(){trDate.value=today();trAmount.value='';trNote.value='';openModal('transactionModal')}
+function saveTransaction(e){e.preventDefault();let amount=+trAmount.value;if(!(amount>0))return;data.finance.transactions.unshift({id:uid(),type:trType.value,category:trCategory.value,amount,date:trDate.value,note:trNote.value.trim()});data.xp+=5;checkAchievements();closeModal('transactionModal');save();toast('+5 XP — транзакция добавлена')}
+function delTr(idv){confirmBox('Удалить транзакцию?','Это действие нельзя отменить.',()=>{data.finance.transactions=data.finance.transactions.filter(x=>x.id!==idv);save()})}
+function renderFinance(){let mk=monthKey(finCal),ts=data.finance.transactions.filter(t=>t.date.startsWith(mk)),inc=ts.filter(t=>t.type==='income').reduce((a,x)=>a+x.amount,0),ex=ts.filter(t=>t.type==='expense').reduce((a,x)=>a+x.amount,0);income.textContent=money(inc);expense.textContent=money(ex);balance.textContent=money(inc-ex);financeMonthTitle.textContent=finCal.toLocaleDateString('ru-RU',{month:'long',year:'numeric'});transactions.innerHTML=ts.length?ts.slice(0,50).map(t=>`<div class="row"><div>${t.type==='income'?'↗️':'↘️'}</div><div class="grow"><b>${esc(t.category)}</b><div class="meta">${dateRu(t.date)}${t.note?' · '+esc(t.note):''}</div></div><b class="${t.type}">${t.type==='income'?'+':'−'}${money(t.amount)}</b><button class="btn" onclick="delTr('${t.id}')">🗑️</button></div>`).join(''):'<div class="empty">Транзакций за месяц нет 💰</div>';renderChart();renderBudgets();renderYearFinance()}
+function financeMonth(d){finCal.setMonth(finCal.getMonth()+d);renderFinance()}
+function weekKey(d){let x=new Date(d);let day=x.getDay()||7;x.setDate(x.getDate()+1-day);return x.toISOString().slice(0,10)}
+function renderChart(){let y=finCal.getFullYear(),m=finCal.getMonth(),days=new Date(y,m+1,0).getDate(),weeks=4,a=Array.from({length:weeks},(_,i)=>({l:'Нед. '+(i+1),v:0}));data.finance.transactions.filter(t=>t.type==='expense'&&t.date.startsWith(monthKey(finCal))).forEach(t=>{let day=new Date(t.date+'T00:00').getDate(),idx=Math.min(3,Math.floor((day-1)/Math.ceil(days/4)));a[idx].v+=t.amount});let max=Math.max(1,...a.map(x=>x.v));chart.innerHTML=a.map(x=>`<div class="barwrap"><div class="bar" style="height:${Math.max(2,x.v/max*85)}%"><span>${x.v?money(x.v):''}</span></div><div class="barlabel">${x.l}</div></div>`).join('')}
+function renderBudgets(){let obj=data.finance.budgets||{};let rows=cats.map(c=>{let plan=+obj[c]||0,fact=data.finance.transactions.filter(t=>t.type==='expense'&&t.category===c&&t.date.startsWith(monthKey(finCal))).reduce((a,x)=>a+x.amount,0);let pct=plan?Math.min(100,fact/plan*100):0;return `<div class="budgetrow"><b>${c}</b><input type="number" min="0" step="0.01" value="${plan||''}" placeholder="План" onchange="setBudget('${c}',this.value)"><span>${money(fact)}</span><span class="${fact>plan&&plan?'expense':''}">${plan?money(plan-fact):'—'}</span><div class="progress"><div style="width:${pct}%;background:${fact>plan&&plan?'var(--red)':'linear-gradient(90deg,var(--purple2),var(--gold))'}"></div></div></div>`}).join('');budgets.innerHTML='<div class="budgetrow"><b>Категория</b><b>План</b><b>Факт</b><b>Остаток</b><b>Прогресс</b></div>'+rows}
+function setBudget(c,v){data.finance.budgets[c]=Math.max(0,+v||0);save()}
+function renderYearFinance(){let y=finCal.getFullYear();yearFinance.innerHTML='<div class="budgetrow"><b>Месяц</b><b>Доход</b><b>Расход</b><b>Остаток</b><b>Расход / доход</b></div>'+Array.from({length:12},(_,m)=>{let ts=data.finance.transactions.filter(t=>t.date.startsWith(`${y}-${String(m+1).padStart(2,'0')}`)),i=ts.filter(t=>t.type==='income').reduce((a,x)=>a+x.amount,0),e=ts.filter(t=>t.type==='expense').reduce((a,x)=>a+x.amount,0);return `<div class="budgetrow"><span>${new Date(y,m,1).toLocaleDateString('ru-RU',{month:'short'})}</span><span class="income">${money(i)}</span><span class="expense">${money(e)}</span><b>${money(i-e)}</b><div class="progress"><div style="width:${i?Math.min(100,e/i*100):0}%"></div></div></div>`}).join('')}
+// calendar
+function month(d){cal.setMonth(cal.getMonth()+d);renderCalendar()}
+function renderCalendar(){let y=cal.getFullYear(),m=cal.getMonth(),first=new Date(y,m,1).getDay(),start=first===0?6:first-1,days=new Date(y,m+1,0).getDate(),names=['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];calTitle.textContent=new Date(y,m,1).toLocaleDateString('ru-RU',{month:'long',year:'numeric'});let h=names.map(x=>`<div class="wd">${x}</div>`).join('');for(let i=0;i<start;i++)h+='<div class="day" style="opacity:.25"></div>';for(let d=1;d<=days;d++){let iso=`${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`,hasT=data.tasks.some(t=>t.due===iso),hasF=data.finance.transactions.some(t=>t.date===iso),hasW=data.workouts.some(t=>t.date===iso),ts=data.tasks.filter(t=>t.due===iso);h+=`<div class="day ${iso===today()?'today':''}" onclick="showDate('${iso}')"><div class="dt">${d}</div><div class="dots">${hasT?'📋 ':''}${hasF?'💰 ':''}${hasW?'🏋️':''}</div>${ts.slice(0,2).map(t=>`<div class="event">${esc(t.title)}</div>`).join('')}</div>`}calendarGrid.innerHTML=h}
+function showDate(iso){dateModalTitle.textContent=new Date(iso+'T00:00').toLocaleDateString('ru-RU',{weekday:'long',day:'numeric',month:'long',year:'numeric'});let ts=data.tasks.filter(t=>t.due===iso),fs=data.finance.transactions.filter(t=>t.date===iso),ws=data.workouts.filter(t=>t.date===iso);dateModalBody.innerHTML=`<h3>📋 Задачи</h3>${ts.length?ts.map(t=>`<div class="row"><div class="grow">${esc(t.title)}<div class="meta">${t.status} · ${t.priority}</div></div><button class="btn" onclick="openTask('${t.id}');closeModal('dateModal')">✏️</button></div>`).join(''):'<div class="empty">Нет задач</div>'}<h3>💰 Транзакции</h3>${fs.length?fs.map(t=>`<div class="row"><div class="grow">${esc(t.category)}</div><b class="${t.type}">${t.type==='income'?'+':'−'}${money(t.amount)}</b></div>`).join(''):'<div class="empty">Нет транзакций</div>'}<h3>🏋️ Тренировка</h3>${ws.length?ws.map(w=>`<div class="row"><div class="grow"><b>${esc(w.name)}</b><div class="meta">${w.type} · самочувствие ${w.feel}/10</div></div></div>`).join(''):'<div class="empty">Нет тренировки</div>'}`;openModal('dateModal')}
+// workouts
+function openWorkout(){editWorkout=null;woDate.value=today();woType.value='Силовая';woName.value='';woFeel.value=7;feelVal.textContent='7';woSleep.value='';woNote.value='';exerciseRows.innerHTML='';addExerciseRow();updateVolume();openModal('workoutModal')}
+function addExerciseRow(v={}){let tr=document.createElement('tr');tr.innerHTML=`<td><input class="ex-name" value="${esc(v.name||'')}"></td><td><input class="ex-sets" type="number" min="0" value="${v.sets||''}"></td><td><input class="ex-reps" type="number" min="0" value="${v.reps||''}"></td><td><input class="ex-weight" type="number" min="0" step="0.1" value="${v.weight||''}"></td><td><input class="ex-tempo" value="${esc(v.tempo||'')}"></td><td><input class="ex-rest" type="number" min="0" value="${v.rest||''}"></td><td><input class="ex-note" value="${esc(v.note||'')}"></td><td><button type="button" class="btn" onclick="this.closest('tr').remove();updateVolume()">🗑️</button></td>`;exerciseRows.appendChild(tr);tr.querySelectorAll('input').forEach(i=>i.addEventListener('input',updateVolume))}
+function getExercises(){return [...exerciseRows.querySelectorAll('tr')].map(tr=>({name:tr.querySelector('.ex-name').value.trim(),sets:+tr.querySelector('.ex-sets').value||0,reps:+tr.querySelector('.ex-reps').value||0,weight:+tr.querySelector('.ex-weight').value||0,tempo:tr.querySelector('.ex-tempo').value.trim(),rest:+tr.querySelector('.ex-rest').value||0,note:tr.querySelector('.ex-note').value.trim()})).filter(x=>x.name)}
+function updateVolume(){let v=getExercises().reduce((a,x)=>a+x.sets*x.reps*x.weight,0);woVolume.textContent=money(v)}
+function saveWorkout(e){e.preventDefault();let ex=getExercises();let w={id:uid(),date:woDate.value,type:woType.value,name:woName.value.trim(),feel:+woFeel.value,sleep:+woSleep.value||0,note:woNote.value.trim(),exercises:ex,volume:ex.reduce((a,x)=>a+x.sets*x.reps*x.weight,0)};if(!w.name)return;data.workouts.unshift(w);data.xp+=30;checkWorkoutBonus(w.date);checkAchievements();closeModal('workoutModal');save();toast('+30 XP — тренировка добавлена')}
+function checkWorkoutBonus(date){let d=new Date(date+'T00:00'),k=weekKey(d),n=data.workouts.filter(w=>weekKey(new Date(w.date+'T00:00'))===k).length;if(n>=3){let key='workbonus:'+k;if(!data.achievements.includes(key)){data.achievements.push(key);data.xp+=50;toast('+50 XP — 3+ тренировки за неделю!')}}}
+function deleteWorkout(idv){confirmBox('Удалить тренировку?','XP за неё будет снят.',()=>{let w=data.workouts.find(x=>x.id===idv);data.workouts=data.workouts.filter(x=>x.id!==idv);data.xp=Math.max(0,data.xp-30);save();toast('Тренировка удалена')})}
+function renderWorkouts(){workoutList.innerHTML=data.workouts.length?data.workouts.map(w=>`<div class="workout"><div class="split"><div><b>🏋️ ${esc(w.name)}</b><div class="meta">${dateRu(w.date)} · ${esc(w.type)} · самочувствие ${w.feel}/10 · сон ${w.sleep||'—'} ч</div></div><button class="btn danger" onclick="deleteWorkout('${w.id}')">🗑️</button></div>${w.note?`<p class="meta">${esc(w.note)}</p>`:''}<div class="pill">Объём: ${money(w.volume)} кг</div>${w.exercises.length?`<div style="overflow:auto;margin-top:10px"><table class="table"><tr><th>Упражнение</th><th>Подходы</th><th>Повторы</th><th>Вес</th><th>Темп</th><th>Отдых</th></tr>${w.exercises.map(x=>`<tr><td>${esc(x.name)}</td><td>${x.sets}</td><td>${x.reps}</td><td>${x.weight}</td><td>${esc(x.tempo)}</td><td>${x.rest}</td></tr>`).join('')}</table></div>`:''}</div>`).join(''):'<div class="card empty">Тренировок пока нет. Начни с первого квеста 🏋️</div>'}
+// measurements
+function openMeasurement(){meDate.value=today();['meWeight','meWaist','meThigh','meArm','meChest','meNote'].forEach(id=>document.getElementById(id).value='');mePhoto.value='';openModal('measurementModal')}
+function saveMeasurement(e){e.preventDefault();let f=mePhoto.files[0];let base='';let finish=()=>{data.measurements.unshift({id:uid(),date:meDate.value,weight:+meWeight.value||null,waist:+meWaist.value||null,thigh:+meThigh.value||null,arm:+meArm.value||null,chest:+meChest.value||null,photo:base,note:meNote.value.trim()});data.xp+=10;checkAchievements();closeModal('measurementModal');save();toast('+10 XP — замеры добавлены')};if(f){let r=new FileReader();r.onload=()=>{base=r.result;finish()};r.readAsDataURL(f)}else finish()}
+function deleteMeasurement(idv){confirmBox('Удалить замер?','XP за добавление будет снят.',()=>{data.measurements=data.measurements.filter(x=>x.id!==idv);data.xp=Math.max(0,data.xp-10);save()})}
+function renderMeasurements(){measureList.innerHTML=data.measurements.length?data.measurements.map(m=>`<div class="measure"><div class="split"><b>${dateRu(m.date)}</b><button class="btn" onclick="deleteMeasurement('${m.id}')">🗑️</button></div><div class="meta">Вес: ${m.weight??'—'} кг · Талия: ${m.waist??'—'} · Бедро: ${m.thigh??'—'} · Рука: ${m.arm??'—'} · Грудь: ${m.chest??'—'}</div>${m.note?`<div style="margin-top:5px">${esc(m.note)}</div>`:''}${m.photo?`<details style="margin-top:7px"><summary>Фото</summary><img src="${m.photo}" style="max-width:100%;border-radius:10px;margin-top:7px"></details>`:''}</div>`).join(''):'<div class="empty">Замеров пока нет</div>';drawWeightChart()}
+function drawWeightChart(){let c=weightCanvas,ctx=c.getContext('2d'),w=c.width,h=c.height;ctx.clearRect(0,0,w,h);let a=data.measurements.filter(x=>x.weight).slice().sort((x,y)=>x.date.localeCompare(y.date));if(!a.length){ctx.fillStyle='#9c95b0';ctx.font='16px system-ui';ctx.fillText('Добавь замеры с весом',20,40);return}let vals=a.map(x=>x.weight),min=Math.min(...vals)-1,max=Math.max(...vals)+1;ctx.strokeStyle='#302943';ctx.lineWidth=1;for(let i=0;i<5;i++){let y=25+i*(h-55)/4;ctx.beginPath();ctx.moveTo(45,y);ctx.lineTo(w-15,y);ctx.stroke()}ctx.strokeStyle='#9b7cff';ctx.lineWidth=3;ctx.beginPath();a.forEach((p,i)=>{let x=50+i*(w-75)/Math.max(1,a.length-1),y=20+(max-p.weight)/(max-min)*(h-55);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)});ctx.stroke();ctx.fillStyle='#e7b85c';a.forEach((p,i)=>{let x=50+i*(w-75)/Math.max(1,a.length-1),y=20+(max-p.weight)/(max-min)*(h-55);ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);ctx.fill()});ctx.fillStyle='#9c95b0';ctx.font='11px system-ui';ctx.fillText(max.toFixed(1)+' кг',5,25);ctx.fillText(min.toFixed(1)+' кг',5,h-25)}
+// nutrition
+function setupCalc(){let last=data.measurements.find(x=>x.weight);if(last?.weight)data.nutrition.calc.weight=last.weight;let c=data.nutrition.calc;calcSex.value=c.sex;calcAge.value=c.age;calcWeight.value=c.weight;calcHeight.value=c.height;calcActivity.value=c.activity;calcGoal.value=c.goal;[calcSex,calcAge,calcWeight,calcHeight,calcActivity,calcGoal].forEach(x=>x.addEventListener('input',calcNutrition));calcNutrition()}
+function calcNutrition(){let c=data.nutrition.calc;c.sex=calcSex.value;c.age=+calcAge.value;c.weight=+calcWeight.value;c.height=+calcHeight.value;c.activity=+calcActivity.value;c.goal=calcGoal.value;let bmr=c.sex==='f'?10*c.weight+6.25*c.height-5*c.age-161:10*c.weight+6.25*c.height-5*c.age+5;if(!(bmr>0&&c.weight>0&&c.height>0)){['calories','protein','fat','carbs'].forEach(x=>document.getElementById(x).textContent='—');return}let tdee=bmr*c.activity,cal=c.goal==='loss'?tdee*.85:c.goal==='gain'?tdee*1.1:tdee,pkg=c.goal==='loss'?1.8:c.goal==='gain'?2:1.6,prot=c.weight*pkg,fat=c.weight*.8,carb=(cal-prot*4-fat*9)/4;calories.textContent=Math.round(cal);protein.textContent=Math.round(prot)+' г';fat.textContent=Math.round(fat)+' г';carbs.textContent=Math.max(0,Math.round(carb))+' г';localStorage.setItem(KEYS.nutrition,JSON.stringify(data.nutrition))}
+function openFood(){foodDate.value=today();foodDish.value='';foodCal.value='';foodP.value='';foodF.value='';foodC.value='';openModal('foodModal')}
+function saveFood(e){e.preventDefault();data.nutrition.entries.unshift({id:uid(),date:foodDate.value,meal:foodMeal.value,dish:foodDish.value.trim(),cal:+foodCal.value,p:+foodP.value,f:+foodF.value,c:+foodC.value});closeModal('foodModal');save();toast('Приём пищи добавлен')}
+function delFood(idv){data.nutrition.entries=data.nutrition.entries.filter(x=>x.id!==idv);save()}
+function renderFood(){let iso=today(),a=data.nutrition.entries.filter(x=>x.date===iso),sum=a.reduce((s,x)=>({cal:s.cal+x.cal,p:s.p+x.p,f:s.f+x.f,c:s.c+x.c}),{cal:0,p:0,f:0,c:0}),c=data.nutrition.calc;foodSummary.innerHTML=`<div class="summary"><div class="stat"><small>Ккал</small><strong>${Math.round(sum.cal)}</strong></div><div class="stat"><small>Белки</small><strong>${Math.round(sum.p)} г</strong></div><div class="stat"><small>Жиры</small><strong>${Math.round(sum.f)} г</strong></div></div><div class="meta" style="margin:8px 0">Цель: ${calories.textContent} ккал · ${protein.textContent} · ${fat.textContent} · ${carbs.textContent}</div>`;foodList.innerHTML=a.length?a.map(x=>`<div class="food"><div class="split"><b>${esc(x.meal)} · ${esc(x.dish)}</b><button class="btn" onclick="delFood('${x.id}')">🗑️</button></div><div class="meta">${x.cal} ккал · Б ${x.p} · Ж ${x.f} · У ${x.c}</div></div>`).join(''):'<div class="empty">Сегодня записей нет</div>'}
+// rewards
+function openReward(idv=null){rewardId.value=idv||'';let r=idv&&data.rewards.find(x=>x.id===idv);rewardModalTitle.textContent=r?'Редактировать награду':'Новая награда';rewardIcon.value=r?.icon||'🎁';rewardName.value=r?.name||'';rewardDesc.value=r?.desc||'';rewardCost.value=r?.cost||100;openModal('rewardModal')}
+function saveReward(e){e.preventDefault();let idv=rewardId.value,r={id:idv||uid(),icon:rewardIcon.value.trim(),name:rewardName.value.trim(),desc:rewardDesc.value.trim(),cost:+rewardCost.value};if(!r.name||r.cost<1)return;let old=idv&&data.rewards.find(x=>x.id===idv);if(old)Object.assign(old,r);else data.rewards.push(r);closeModal('rewardModal');save();toast('Награда сохранена')}
+function deleteReward(idv){confirmBox('Удалить награду?','Награда исчезнет из магазина.',()=>{data.rewards=data.rewards.filter(x=>x.id!==idv);save()})}
+function buyReward(idv){let r=data.rewards.find(x=>x.id===idv);if(!r)return;if(data.xp<r.cost){toast('Не хватает '+(r.cost-data.xp)+' XP');return}confirmBox('Обменять XP?',`Обменять ${r.cost} XP на «${r.name}»?`,()=>{data.xp-=r.cost;save();toast('🎉 Награда получена!')})}
+function renderRewards(){rewardGrid.innerHTML=data.rewards.map(r=>`<div class="reward"><div class="ico">${esc(r.icon)}</div><h3>${esc(r.name)}</h3><p>${esc(r.desc||'')}</p><div class="split"><span class="pill">⚡ ${r.cost} XP</span><span><button class="btn" onclick="openReward('${r.id}')">✏️</button><button class="btn" onclick="deleteReward('${r.id}')">🗑️</button></span></div><button class="btn primary" style="width:100%;margin-top:9px" onclick="buyReward('${r.id}')">Купить</button></div>`).join('')}
+function renderAll(){renderDashboard();renderTasks();renderMatrix();renderWeeks();renderFinance();renderCalendar();renderWorkouts();renderMeasurements();calcNutrition();renderFood();renderRewards()}
+// custom prompt modal
+const promptStyle=document.createElement('div');promptStyle.className='modalbg';promptStyle.id='promptModal';promptStyle.innerHTML='<div class="modal" style="max-width:430px"><div class="modalhead"><h2 id="promptTitle">Введите значение</h2><button class="btn" onclick="promptResolve(null)">✕</button></div><div class="field"><label id="promptLabel">Название</label><input id="promptInput"></div><div class="modalfoot"><button class="btn" onclick="promptResolve(null)">Отмена</button><button class="btn primary" onclick="promptResolve(promptInput.value)">Сохранить</button></div></div>';document.body.appendChild(promptStyle);let promptFn=null;window._promptCustom=(t,p)=>{promptTitle.textContent=t;promptInput.placeholder=p||'';promptInput.value='';openModal('promptModal');promptFn=null;return null};function promptResolve(v){closeModal('promptModal');if(v?.trim())data.week.weeks[data.week.current-1].habits.push(v.trim()),save()}
+// Theme + cloud sync
+const THEME_KEY='questflow_theme_v1', CLOUD_KEY='questflow_cloud_v1';
+let cloud={...JSON.parse(localStorage.getItem(CLOUD_KEY)||'{}'),token:null,userId:null,timer:null};
+function saveCloudSession(){if(cloud.token&&cloud.userId)localStorage.setItem(CLOUD_KEY,JSON.stringify({url:cloud.url,key:cloud.key,token:cloud.token,userId:cloud.userId}));else localStorage.setItem(CLOUD_KEY,JSON.stringify({url:cloud.url||'',key:cloud.key||''}))}
+function restoreCloudSession(){try{let c=JSON.parse(localStorage.getItem(CLOUD_KEY)||'{}');if(c.url)cloud.url=c.url;if(c.key)cloud.key=c.key;if(c.token&&c.userId){cloud.token=c.token;cloud.userId=c.userId;syncStatus('Сессия восстановлена','ok')}}catch(e){}}
+function applyTheme(){let t=localStorage.getItem(THEME_KEY)||'dark';document.body.classList.toggle('light',t==='light');let el=document.getElementById('themeLabel');if(el)el.textContent=t==='light'?'Тёмная тема':'Светлая тема'}
+function toggleTheme(){let next=document.body.classList.contains('light')?'dark':'light';localStorage.setItem(THEME_KEY,next);applyTheme();toast(next==='light'?'☀️ Светлая тема':'🌙 Тёмная тема');queueCloudSync()}
+function snapshot(){return {data,theme:localStorage.getItem(THEME_KEY)||'dark',updatedAt:Date.now()}}
+function restoreSnapshot(p){if(!p||!p.data)return;data=p.data;localStorage.setItem(THEME_KEY,p.theme==='light'?'light':'dark');Object.entries({tasks:data.tasks,habits:data.habits,finance:data.finance,workouts:data.workouts,measurements:data.measurements,nutrition:data.nutrition,rewards:data.rewards,xp:data.xp,achievements:data.achievements,week:data.week}).forEach(([k,v])=>localStorage.setItem(KEYS[k],JSON.stringify(v)));applyTheme();renderAll()}
+function saveCloudConfig(){cloud.url=(sbUrl?.value||cloud.url||'').trim();cloud.key=(sbKey?.value||cloud.key||'').trim();saveCloudSession()}
+function fillCloudConfig(){if(typeof sbUrl!=='undefined'){sbUrl.value=cloud.url||'';sbKey.value=cloud.key||''}}
+function syncStatus(text,type=''){let a=document.getElementById('syncStatus'),d=document.getElementById('syncDot'),i=document.getElementById('syncInfo');if(a)a.textContent=text;if(d)d.className='sync-dot '+(type==='ok'?'ok':type==='err'?'err':'');if(i)i.textContent=type==='ok'?'Данные синхронизированы.':'Без подключения данные хранятся только в этом браузере.'}
+function authHeaders(){return {'Content-Type':'application/json','apikey':cloud.key,'Authorization':'Bearer '+cloud.token}}
+async function cloudSignIn(){try{saveCloudConfig();let email=sbEmail.value.trim(),password=sbPassword.value;if(!cloud.url||!cloud.key||!email||!password)throw Error('Заполни URL, ключ, email и пароль.');let r=await fetch(cloud.url.replace(/\/$/,'')+'/auth/v1/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json','apikey':cloud.key},body:JSON.stringify({email,password})});let j=await r.json();if(!r.ok)throw Error(j.error_description||j.msg||'Не удалось войти');cloud.token=j.access_token;cloud.userId=j.user.id;saveCloudSession();syncStatus('Подключено','ok');sbPassword.value='';await cloudSync(true);toast('☁️ Облако подключено')}catch(e){syncStatus('Ошибка','err');toast(e.message)}}
+async function cloudSignUp(){try{saveCloudConfig();let email=sbEmail.value.trim(),password=sbPassword.value;if(!cloud.url||!cloud.key||!email||password.length<6)throw Error('Нужны URL, ключ, email и пароль от 6 символов.');let r=await fetch(cloud.url.replace(/\/$/,'')+'/auth/v1/signup',{method:'POST',headers:{'Content-Type':'application/json','apikey':cloud.key},body:JSON.stringify({email,password})});let j=await r.json();if(!r.ok)throw Error(j.msg||j.error_description||'Не удалось создать аккаунт');if(j.access_token){cloud.token=j.access_token;cloud.userId=j.user.id;await cloudSync(true);toast('☁️ Аккаунт создан')}else toast('📩 Проверь почту и затем войди')}catch(e){syncStatus('Ошибка','err');toast(e.message)}}
+async function cloudSync(silent=false){if(!cloud.token||!cloud.userId){if(!silent)toast('Сначала подключи облако');return}try{syncStatus('Синхронизация…');let base=cloud.url.replace(/\/$/,''),r=await fetch(base+'/rest/v1/tracker_data?user_id=eq.'+encodeURIComponent(cloud.userId)+'&select=payload,updated_at',{headers:authHeaders()}),remote=await r.json();if(!r.ok)throw Error(remote.message||'Ошибка чтения облака');let localUpdated=+localStorage.getItem('questflow_cloud_updated')||0,remoteUpdated=remote[0]?.updated_at?Date.parse(remote[0].updated_at):0;if(remote[0]?.payload&&remoteUpdated>localUpdated){restoreSnapshot(remote[0].payload);localStorage.setItem('questflow_cloud_updated',String(remoteUpdated))}else{let now=Date.now();let rr=await fetch(base+'/rest/v1/tracker_data',{method:'POST',headers:{...authHeaders(),'Prefer':'resolution=merge-duplicates,return=minimal'},body:JSON.stringify({user_id:cloud.userId,payload:snapshot(),updated_at:new Date(now).toISOString()})});if(!rr.ok)throw Error('Не удалось сохранить данные в облако');localStorage.setItem('questflow_cloud_updated',String(now))}syncStatus('Синхронизировано','ok');if(!silent)toast('☁️ Синхронизация завершена')}catch(e){syncStatus('Ошибка','err');if(!silent)toast('Ошибка синхронизации: '+e.message)}}
+function queueCloudSync(){if(!cloud.token)return;clearTimeout(cloud.timer);cloud.timer=setTimeout(()=>cloudSync(true),1000)}
+function cloudLogout(){cloud.token=null;cloud.userId=null;syncStatus('Отключено');toast('Облако отключено')}
+function copySql(){navigator.clipboard?.writeText(document.getElementById('sqlSetup').value);toast('SQL скопирован')}
+// Events and init
+load();applyTheme();restoreCloudSession();fillCloudConfig();fillSelects();setupCalc();document.querySelectorAll('.modalbg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')}));if(location.protocol==='file:'){let fw=document.getElementById('fileWarning');if(fw)fw.style.display='block'}document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modalbg.open').forEach(m=>m.classList.remove('open'));if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openTask()}});document.getElementById('woFeel').addEventListener('input',()=>feelVal.textContent=woFeel.value);checkAchievements();renderAll();if('serviceWorker' in navigator && location.protocol==='https:'){navigator.serviceWorker.register('./sw.js').catch(()=>{})}
+</script>
+</body></html>
